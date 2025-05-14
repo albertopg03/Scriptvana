@@ -27,6 +27,7 @@
                 <engine:Label text="Label" />
                 <engine:Label text="Label" />
             </engine:ScrollView>
+            <engine:Button text="Button" name="createScriptButton" />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>
