@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,13 +20,14 @@ public class MainWindow : EditorWindow
     private TextField _nameSpaceField;
     private TextField _pathTextField;
     private Button _browseButton;
+    private Button _saveButton;
     
     [MenuItem("Tools/Scriptvana")]
     public static void ShowWindow()
     {
         MainWindow window = GetWindow<MainWindow>();
         window.titleContent = new GUIContent("Scriptvana");
-        window.minSize = new Vector2(800, 600);
+        window.minSize = new Vector2(600, 200);
     }
 
     public void CreateGUI()
@@ -37,9 +41,14 @@ public class MainWindow : EditorWindow
         _nameSpaceField = layout.Q<TextField>("nameSpaceField");
         _pathTextField = layout.Q<TextField>("pathTextField");
         _browseButton = layout.Q<Button>("browseButton");
+        _saveButton =  layout.Q<Button>("saveFormButton");
 
         _browseButton.clicked += OnBrowseButtonClicked;
+        _saveButton.clicked += OnSave;
         _pathTextField.value = "Assets/";
+        
+        // valores del dropdown
+        _scriptTypeField.choices = Enum.GetNames(typeof(ScriptType)).ToList();
     }
     
     private void OnBrowseButtonClicked()
@@ -47,7 +56,7 @@ public class MainWindow : EditorWindow
         string currentPath = _pathTextField.value;
         if (string.IsNullOrEmpty(currentPath))
         {
-            currentPath = "Assets/"; // Valor por defecto si no hay nada escrito
+            currentPath = "Assets/";
         }
 
         string selectedPath = EditorUtility.OpenFolderPanel("Selecciona la Carpeta de Guardado", currentPath, "");
@@ -61,8 +70,19 @@ public class MainWindow : EditorWindow
             else
             {
                 EditorUtility.DisplayDialog("Error de Ruta", "La carpeta seleccionada debe estar dentro de la carpeta 'Assets' del proyecto.", "Aceptar");
-                _pathTextField.value = ""; // Limpiar el campo si la ruta no es válida
+                _pathTextField.value = ""; 
             }
         }
+    }
+
+    private void OnSave()
+    {
+        // quitar mas adelante de aqui esta lógica
+        ScriptType scriptTypeSelected = (ScriptType)Enum.Parse(typeof(ScriptType), _scriptTypeField.value);
+        
+        ScriptDefinition script = new ScriptDefinition(_scriptNameField.value, scriptTypeSelected,
+            _nameSpaceField.value, _pathTextField.value);
+
+        Debug.Log(script.ToString());
     }
 }

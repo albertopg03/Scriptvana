@@ -2,5 +2,21 @@ using UnityEngine;
 
 public class ScriptDefinition
 {
+    public string Name { get; set; }
+    public ScriptType Type { get; set; }
+    public string NSpace { get; set; }
+    public string Path { get; set; }
+
+    public ScriptDefinition(string name, ScriptType type, string nSpace, string path)
+    {
+        Name = name;
+        Type = type;
+        NSpace = nSpace;
+        Path = path;
+    }
     
+    public override string ToString()
+    {
+        return $"{Name}.cs ({Type}) in {Path}";
+    }
 }

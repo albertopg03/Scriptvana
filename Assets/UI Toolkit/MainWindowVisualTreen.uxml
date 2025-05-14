@@ -1,6 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <engine:VisualElement name="EditorSection" style="flex-grow: 1; width: 100%; height: 100%; flex-direction: row;">
-        <engine:VisualElement name="FormSection" style="flex-grow: 1; width: 50%;">
+        <engine:VisualElement name="FormSection" style="flex-grow: 1; width: 60%;">
             <engine:TextField label="Script name*" placeholder-text="name" hide-placeholder-on-focus="false" readonly="false" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="scriptNameField" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; font-size: 14px; -unity-font-style: normal; right: auto; -unity-text-align: upper-left; white-space: normal; text-overflow: clip;">
                 <engine:Label text=".cs" />
             </engine:TextField>
@@ -8,7 +8,25 @@
             <engine:TextField label="Name Space" placeholder-text="name space" hide-placeholder-on-focus="false" readonly="false" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="nameSpaceField" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; font-size: 14px; -unity-font-style: normal;" />
             <engine:TextField label="Script name*" placeholder-text="name" hide-placeholder-on-focus="false" readonly="true" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="pathTextField" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; font-size: 14px; -unity-font-style: normal; right: auto; -unity-text-align: upper-left; white-space: normal; text-overflow: clip;" />
             <engine:Button text="Browse" name="browseButton" style="width: auto; font-size: 14px;" />
+            <engine:Button text="Save" name="saveFormButton" />
         </engine:VisualElement>
-        <engine:VisualElement name="ScriptListSection" style="flex-grow: 1; width: 50%;" />
+        <engine:VisualElement name="ScriptListSection" style="flex-grow: 1; width: 40%;">
+            <engine:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="AlwaysVisible" style="height: 250px; align-items: flex-start;">
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+                <engine:Label text="Label" />
+            </engine:ScrollView>
+        </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>
