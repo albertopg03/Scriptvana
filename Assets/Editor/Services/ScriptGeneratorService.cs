@@ -78,11 +78,12 @@ public class {scriptName} : MonoBehaviour
         return true;
     }
 
-    public void CreateFiles(List<ScriptDefinition> scripts)
+    public void CreateFiles(Dictionary<int, ScriptDefinition> scripts)
     {
-        foreach (ScriptDefinition script in scripts)
+        foreach(KeyValuePair<int, ScriptDefinition> script in scripts)
         {
-            CreateFile(script.Name, script.Path);
+            // do something with entry.Value or entry.Key
+            CreateFile(script.Value.Name, script.Value.Path);
         }
         
         // recarga Unity para detectar el/los nuevos scripts

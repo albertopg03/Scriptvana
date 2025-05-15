@@ -22,7 +22,9 @@ public class MainWindow : EditorWindow
     private Button _createButton;
     
     // lista de scripts
-    private List<ScriptDefinition> scriptList = new List<ScriptDefinition>();
+    //private List<ScriptDefinition> scriptList = new List<ScriptDefinition>();
+    private int indexScript = 0;
+    private Dictionary<int, ScriptDefinition> scriptList = new();
     
     [MenuItem("Tools/Scriptvana")]
     public static void ShowWindow()
@@ -64,7 +66,6 @@ public class MainWindow : EditorWindow
 
     private void OnAdd()
     {
-        // quitar mas adelante de aqui esta lógica
         ScriptType scriptTypeSelected = (ScriptType)Enum.Parse(typeof(ScriptType), _scriptTypeField.value);
         
         ScriptDefinition script = new ScriptDefinition(_scriptNameField.value, scriptTypeSelected,
@@ -72,7 +73,9 @@ public class MainWindow : EditorWindow
 
         Debug.Log(script.ToString());
 
-        scriptList.Add(script);
+        scriptList.Add(indexScript, script);
+
+        indexScript++;
         Debug.Log("NUMERO SCRIPTS ALMACENADOS -> " + scriptList.Count);
     }
 
