@@ -10,23 +10,8 @@
             <engine:Button text="Browse" name="browseButton" style="width: auto; font-size: 14px;" />
             <engine:Button text="Save" name="saveFormButton" />
         </engine:VisualElement>
-        <engine:VisualElement name="ScriptListSection" style="flex-grow: 1; width: 40%;">
-            <engine:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="AlwaysVisible" style="height: 250px; align-items: flex-start;">
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-                <engine:Label text="Label" />
-            </engine:ScrollView>
+        <engine:VisualElement name="ResultSection" style="flex-grow: 1; width: 40%;">
+            <engine:ListView name="ScriptListView" />
             <engine:Button text="Button" name="createScriptButton" />
         </engine:VisualElement>
     </engine:VisualElement>

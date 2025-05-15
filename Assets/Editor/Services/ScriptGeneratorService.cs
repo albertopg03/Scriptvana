@@ -82,7 +82,6 @@ public class {scriptName} : MonoBehaviour
     {
         foreach(KeyValuePair<int, ScriptDefinition> script in scripts)
         {
-            // do something with entry.Value or entry.Key
             CreateFile(script.Value.Name, script.Value.Path);
         }
         
