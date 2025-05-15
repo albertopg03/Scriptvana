@@ -62,16 +62,72 @@ public class MainWindow : EditorWindow
 
     private void InitScriptListView()
     {
-        _scriptListView.itemsSource = scriptList.Values.ToList();
-        _scriptListView.makeItem = () => new Label();
+        var items = scriptList.Values.ToList();
+        _scriptListView.itemsSource = items;
+
+        _scriptListView.makeItem = () =>
+        {
+            VisualElement rowOption = new VisualElement();
+            rowOption.style.flexDirection = FlexDirection.Row;
+            rowOption.style.justifyContent = Justify.SpaceBetween;
+
+            Label label = new Label();
+            label.name = "scriptLabel";
+            label.style.flexGrow = 1;
+
+            Button deleteOptionBtn = new Button();
+            deleteOptionBtn.text = "X";
+            deleteOptionBtn.name = "deleteButton";
+            deleteOptionBtn.style.width = 20;
+            deleteOptionBtn.style.marginLeft = 10;
+
+            rowOption.Add(label);
+            rowOption.Add(deleteOptionBtn);
+
+            return rowOption;
+        };
+
         _scriptListView.bindItem = (element, i) =>
         {
-            var scriptData = scriptList.Values.ToList()[i];
-            (element as Label).text = scriptData.Name;
+            List<ScriptDefinition> itemsLocal = scriptList.Values.ToList(); 
+            ScriptDefinition dataScript = itemsLocal[i];
+
+            Label label = element.Q<Label>("scriptLabel");
+            label.text = dataScript?.Name ?? string.Empty;
+
+            Button button = element.Q<Button>("deleteButton");
+            button.clickable.clicked -= null; // limpiar handlers anteriores
+            button.clickable.clicked += () =>
+            {
+                var keyToRemove = scriptList.FirstOrDefault(x => x.Value == dataScript).Key;
+                if (scriptList.Remove(keyToRemove))
+                {
+                    InitScriptListView();
+                    _scriptListView.Rebuild();
+                }
+            };
         };
+
         _scriptListView.selectionType = SelectionType.Single;
-        _scriptListView.fixedItemHeight = 20;
+        _scriptListView.fixedItemHeight = 24;
+
+        _scriptListView.selectionChanged += selected =>
+        {
+            var scriptSelected = selected.FirstOrDefault() as ScriptDefinition;
+            if (scriptSelected != null)
+            {
+                RefreshForm(scriptSelected);
+            }
+        };
     }
+
+    private void RefreshForm(ScriptDefinition scriptSelected)
+    {
+        _scriptNameField.value = scriptSelected.Name;
+        _pathTextField.value = scriptSelected.Path;
+        _scriptTypeField.value = scriptSelected.Type.ToString();
+    }
+
 
     private void OnBrowse()
     {
