@@ -7,8 +7,8 @@
             <engine:DropdownField label="Type*" name="typeScriptField" style="font-size: 14px;" />
             <engine:TextField label="Name Space" placeholder-text="name space" hide-placeholder-on-focus="false" readonly="false" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="nameSpaceField" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; font-size: 14px; -unity-font-style: normal;" />
             <engine:IMGUIContainer style="flex-direction: row; width: 100%;">
-                <engine:TextField label="Script name*" placeholder-text="name" hide-placeholder-on-focus="false" readonly="true" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="pathTextField" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; font-size: 14px; -unity-font-style: normal; right: auto; -unity-text-align: upper-left; white-space: normal; text-overflow: clip; width: 77%; margin-right: 0; margin-left: 4px;" />
-                <engine:Button text="Browse" name="browseButton" style="width: 20%; font-size: 14px;" />
+                <engine:TextField label="Script name*" placeholder-text="name" hide-placeholder-on-focus="false" readonly="true" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="pathTextField" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; font-size: 14px; -unity-font-style: normal; right: auto; -unity-text-align: upper-left; white-space: normal; text-overflow: clip; width: 85%; margin-right: 0; margin-left: 4px;" />
+                <engine:Button name="browseButton" icon-image="project://database/Assets/Icons/folder.png?fileID=2800000&amp;guid=e0c681f59df82a245bb1c5dfc70ede31&amp;type=3#folder" style="width: 12%; font-size: 14px;" />
             </engine:IMGUIContainer>
             <engine:Button text="Save" name="saveFormButton" />
         </engine:VisualElement>
