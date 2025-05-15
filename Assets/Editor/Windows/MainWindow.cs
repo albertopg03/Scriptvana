@@ -19,11 +19,13 @@ public class MainWindow : EditorWindow
     private Button _browseButton;
     private Button _saveButton;
     private Button _createButton;
+    private Button _exitEditorModeButton;
 
     private ListView _scriptListView;
 
     // lista de scripts
-    private int indexScript = 0;
+    private int _indexScript = 0;
+    private ScriptDefinition _selectedScript = null;
     private Dictionary<int, ScriptDefinition> scriptList = new();
 
     [MenuItem("Tools/Scriptvana")]
@@ -47,13 +49,17 @@ public class MainWindow : EditorWindow
         _browseButton = layout.Q<Button>("browseButton");
         _saveButton = layout.Q<Button>("saveFormButton");
         _createButton = layout.Q<Button>("createScriptButton");
+        _exitEditorModeButton = layout.Q<Button>("exitEditorModeButton");
 
         _scriptListView = layout.Q<ListView>("ScriptListView");
         InitScriptListView();
 
+        _exitEditorModeButton.SetEnabled(false);
+        
         _browseButton.clicked += OnBrowse;
         _saveButton.clicked += OnAdd;
         _createButton.clicked += OnGenerate;
+        _exitEditorModeButton.clicked += OnExitEditorMode;
         _pathTextField.value = "Assets/";
 
         // valores del dropdown
@@ -110,19 +116,30 @@ public class MainWindow : EditorWindow
 
         _scriptListView.selectionType = SelectionType.Single;
         _scriptListView.fixedItemHeight = 24;
-
+        
         _scriptListView.selectionChanged += selected =>
         {
-            var scriptSelected = selected.FirstOrDefault() as ScriptDefinition;
-            if (scriptSelected != null)
+            _selectedScript = selected.FirstOrDefault() as ScriptDefinition;
+            if (_selectedScript != null)
             {
-                RefreshForm(scriptSelected);
+                _exitEditorModeButton.SetEnabled(true);
+                RefreshForm(_selectedScript);
             }
         };
+
+        /*
+        _scriptListView.RegisterCallback<FocusOutEvent>(evt =>
+        {
+            indexSelectedScript = -1;
+            _selectedScript = null;
+        });
+        */
     }
 
     private void RefreshForm(ScriptDefinition scriptSelected)
     {
+        Debug.Log("ID SELECCIONADO -> "  + scriptSelected.Id);
+        
         _scriptNameField.value = scriptSelected.Name;
         _pathTextField.value = scriptSelected.Path;
         _scriptTypeField.value = scriptSelected.Type.ToString();
@@ -139,28 +156,80 @@ public class MainWindow : EditorWindow
     {
         ScriptType scriptTypeSelected = (ScriptType)Enum.Parse(typeof(ScriptType), _scriptTypeField.value);
 
-        ScriptDefinition script = new ScriptDefinition(
-            _scriptNameField.value,
-            scriptTypeSelected,
-            _nameSpaceField.value,
-            _pathTextField.value
-        );
+        if (_selectedScript != null)
+        {
+            // Comparar si hubo cambios
+            bool hasChanges =
+                _selectedScript.Name != _scriptNameField.value ||
+                _selectedScript.Type != scriptTypeSelected ||
+                _selectedScript.Path != _pathTextField.value ||
+                _selectedScript.NSpace != _nameSpaceField.value;
 
-        Debug.Log(script.ToString());
+            if (hasChanges)
+            {
+                // Actualizar script existente
+                _selectedScript.Name = _scriptNameField.value;
+                _selectedScript.Type = scriptTypeSelected;
+                _selectedScript.Path = _pathTextField.value;
+                _selectedScript.NSpace = _nameSpaceField.value;
 
-        scriptList.Add(indexScript, script);
-        indexScript++;
+                Debug.Log($"Script actualizado: {_selectedScript.Name}");
+            }
+            else
+            {
+                Debug.Log("Sin cambios detectados. Nada que hacer.");
+            }
+        }
+        else
+        {
+            // Crear nuevo script
+            var newScript = new ScriptDefinition(
+                _indexScript,
+                _scriptNameField.value,
+                scriptTypeSelected,
+                _nameSpaceField.value,
+                _pathTextField.value
+            );
 
-        // Actualizar ListView tras añadir un nuevo script
+            scriptList.Add(_indexScript, newScript);
+            _indexScript++;
+
+            Debug.Log($"Script nuevo añadido: {newScript.Name}");
+        }
+
+        // Refrescar UI
         _scriptListView.itemsSource = scriptList.Values.ToList();
         _scriptListView.Rebuild();
 
-        Debug.Log($"NUMERO SCRIPTS ALMACENADOS -> {scriptList.Count}");
+        // Limpiar selección para evitar confusiones
+        _scriptListView.selectedIndex = -1;
+        _selectedScript = null;
+        
+        // limpiar formulario
+        ClearForm();
     }
+
 
     private void OnGenerate()
     {
         ScriptGeneratorService generator = new ScriptGeneratorService();
         generator.CreateFiles(scriptList);
+    }
+
+    private void ClearForm()
+    {
+        _scriptNameField.value = "";
+        _nameSpaceField.value = "";
+        _pathTextField.value = "Assets/";
+        _scriptTypeField.value = _scriptTypeField.choices.FirstOrDefault();
+    }
+
+    private void OnExitEditorMode()
+    {
+        _scriptListView.ClearSelection();
+        _selectedScript = null;
+        _exitEditorModeButton.SetEnabled(false);
+        
+        ClearForm();
     }
 }
