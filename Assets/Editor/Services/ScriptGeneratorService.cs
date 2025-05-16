@@ -17,10 +17,8 @@ public class ScriptGeneratorService
             Directory.CreateDirectory(directoryPath);
         }
 
-        string templatePath = "Assets/Editor/Templates/Scripts/MonoBehaviourTemplate.txt";
-        string templateImportsPath = "Assets/Editor/Templates/Imports/BasicImports.txt";
-        
-        Debug.Log("Script type seleccionado -> " + scriptType);
+        string templatePath = PathScriptProviderService.GetScriptPath(scriptType);
+        string templateImportsPath = PathScriptProviderService.GetImportPath();
         
         try
         {
