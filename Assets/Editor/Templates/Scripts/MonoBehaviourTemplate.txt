@@ -1,5 +1,6 @@
 {imports}
 
+{namespace_open}
 public class {scriptName} : MonoBehaviour
 {
     void Start()
@@ -12,3 +13,4 @@ public class {scriptName} : MonoBehaviour
         
     }
 }
+{namespace_close}

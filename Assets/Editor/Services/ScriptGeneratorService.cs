@@ -6,7 +6,7 @@ using static System.IO.File;
 
 public class ScriptGeneratorService
 {
-    public bool CreateFile(string scriptName, string pathRelativeToAssets, bool autoReload = false)
+    public bool CreateFile(string scriptName, string pathRelativeToAssets, string nSpace = "", bool autoReload = false)
     {
         string fullPathInAssets = Path.Combine(pathRelativeToAssets, scriptName + ".cs");
         string directoryPath = Path.GetDirectoryName(fullPathInAssets);
@@ -17,12 +17,9 @@ public class ScriptGeneratorService
             Directory.CreateDirectory(directoryPath);
         }
 
-        string templatePath = "Assets/Editor/Templates/Scripts/MonoBehaviourTemplate.txt"; 
-        string scriptContent;
-        
+        string templatePath = "Assets/Editor/Templates/Scripts/MonoBehaviourTemplate.txt";
         string templateImportsPath = "Assets/Editor/Templates/Imports/BasicImports.txt";
-        string importContent;
-
+        
         try
         {
             if (!Exists(templatePath))
@@ -31,12 +28,24 @@ public class ScriptGeneratorService
                 return false;
             }
 
-            // Leer plantilla y reemplazar placeholders
-            scriptContent = ReadAllText(templatePath);
-            scriptContent = scriptContent.Replace("{scriptName}", scriptName);
+            string scriptContent = ReadAllText(templatePath);
+            string importContent = Exists(templateImportsPath) ? ReadAllText(templateImportsPath) : "";
 
-            importContent = ReadAllText(templateImportsPath);
-            scriptContent = scriptContent.Replace("{imports}", importContent);
+            // Reemplazos básicos
+            scriptContent = scriptContent.Replace("{scriptName}", scriptName)
+                                         .Replace("{imports}", importContent);
+
+            // Lógica del namespace opcional
+            if (!string.IsNullOrWhiteSpace(nSpace))
+            {
+                scriptContent = scriptContent.Replace("{namespace_open}", $"namespace {nSpace}\n{{")
+                                             .Replace("{namespace_close}", "}");
+            }
+            else
+            {
+                scriptContent = scriptContent.Replace("{namespace_open}", string.Empty)
+                                             .Replace("{namespace_close}", string.Empty);
+            }
 
             if (Exists(fullPathInAssets))
             {
@@ -71,11 +80,12 @@ public class ScriptGeneratorService
     }
 
 
+
     public void CreateFiles(Dictionary<int, ScriptDefinition> scripts)
     {
         foreach(KeyValuePair<int, ScriptDefinition> script in scripts)
         {
-            CreateFile(script.Value.Name, script.Value.Path);
+            CreateFile(script.Value.Name, script.Value.Path, script.Value.NSpace);
         }
         
         // recarga Unity para detectar el/los nuevos scripts
