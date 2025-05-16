@@ -1,0 +1,9 @@
+{imports}
+
+{namespace_open}
+[CreateAssetMenu(fileName = "{scriptName}", menuName = "ScriptableObjects/{scriptName}")]
+public class {scriptName} : ScriptableObject
+{
+    
+}
+{namespace_close}

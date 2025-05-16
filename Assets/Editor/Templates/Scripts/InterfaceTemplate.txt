@@ -1,0 +1,8 @@
+{imports}
+
+{namespace_open}
+public interface {scriptName}
+{
+    
+}
+{namespace_close}

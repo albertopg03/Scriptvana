@@ -6,7 +6,7 @@ using static System.IO.File;
 
 public class ScriptGeneratorService
 {
-    public bool CreateFile(string scriptName, string pathRelativeToAssets, string nSpace = "", bool autoReload = false)
+    public bool CreateFile(ScriptType scriptType, string scriptName, string pathRelativeToAssets, string nSpace = "", bool autoReload = false)
     {
         string fullPathInAssets = Path.Combine(pathRelativeToAssets, scriptName + ".cs");
         string directoryPath = Path.GetDirectoryName(fullPathInAssets);
@@ -19,6 +19,8 @@ public class ScriptGeneratorService
 
         string templatePath = "Assets/Editor/Templates/Scripts/MonoBehaviourTemplate.txt";
         string templateImportsPath = "Assets/Editor/Templates/Imports/BasicImports.txt";
+        
+        Debug.Log("Script type seleccionado -> " + scriptType);
         
         try
         {
@@ -85,7 +87,7 @@ public class ScriptGeneratorService
     {
         foreach(KeyValuePair<int, ScriptDefinition> script in scripts)
         {
-            CreateFile(script.Value.Name, script.Value.Path, script.Value.NSpace);
+            CreateFile(script.Value.Type, script.Value.Name, script.Value.Path, script.Value.NSpace);
         }
         
         // recarga Unity para detectar el/los nuevos scripts
