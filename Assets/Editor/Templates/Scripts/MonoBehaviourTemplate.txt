@@ -1,0 +1,14 @@
+{imports}
+
+public class {scriptName} : MonoBehaviour
+{
+    void Start()
+    {
+        
+    }
+
+    void Update()
+    {
+        
+    }
+}
