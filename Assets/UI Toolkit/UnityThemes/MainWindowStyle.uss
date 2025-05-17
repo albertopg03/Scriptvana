@@ -1,0 +1,24 @@
+.container {
+    background-color: var(--unity-colors-default-background);
+    padding-top: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    padding-left: 8px;
+    margin-top: 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    margin-left: 8px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.input {
+    font-size: 14px;
+    -unity-font-style: normal;
+    -unity-text-align: middle-left;
+    margin-top: 8px;
+    white-space: normal;
+    text-overflow: clip;
+}

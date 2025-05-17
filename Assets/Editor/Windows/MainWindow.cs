@@ -50,7 +50,7 @@ public class MainWindow : EditorWindow
         _saveButton = layout.Q<Button>("saveFormButton");
         _createButton = layout.Q<Button>("createScriptButton");
         _exitEditorModeButton = layout.Q<Button>("exitEditorModeButton");
-
+        
         _scriptListView = layout.Q<ListView>("ScriptListView");
         InitScriptListView();
 
@@ -79,13 +79,13 @@ public class MainWindow : EditorWindow
 
             Label label = new Label();
             label.name = "scriptLabel";
-            label.style.flexGrow = 1;
+            //label.style.flexGrow = 1;
+            label.AddToClassList("input");
 
             Button deleteOptionBtn = new Button();
-            deleteOptionBtn.text = "X";
+            deleteOptionBtn.iconImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Icons/close.png");
             deleteOptionBtn.name = "deleteButton";
-            deleteOptionBtn.style.width = 20;
-            deleteOptionBtn.style.marginLeft = 10;
+            deleteOptionBtn.style.width = 30;
 
             rowOption.Add(label);
             rowOption.Add(deleteOptionBtn);
@@ -126,20 +126,10 @@ public class MainWindow : EditorWindow
                 RefreshForm(_selectedScript);
             }
         };
-
-        /*
-        _scriptListView.RegisterCallback<FocusOutEvent>(evt =>
-        {
-            indexSelectedScript = -1;
-            _selectedScript = null;
-        });
-        */
     }
 
     private void RefreshForm(ScriptDefinition scriptSelected)
     {
-        Debug.Log("ID SELECCIONADO -> "  + scriptSelected.Id);
-        
         _scriptNameField.value = scriptSelected.Name;
         _pathTextField.value = scriptSelected.Path;
         _scriptTypeField.value = scriptSelected.Type.ToString();
