@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Scriptvana.Editor.Models;
+using Scriptvana.Editor.Services;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MainWindow : EditorWindow
+namespace Scriptvana.Editor.Windows
+{
+    public class MainWindow : EditorWindow
 {
     // contenedor principal de la ventana
     [SerializeField]
@@ -86,7 +90,7 @@ public class MainWindow : EditorWindow
             label.AddToClassList("truncate-label"); 
 
             Button deleteOptionBtn = new Button();
-            deleteOptionBtn.iconImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Icons/close.png");
+            deleteOptionBtn.iconImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Scriptvana/Icons/close.png");
             deleteOptionBtn.name = "deleteButton";
             deleteOptionBtn.style.width = 30;
             deleteOptionBtn.style.height = 20;
@@ -228,4 +232,5 @@ public class MainWindow : EditorWindow
         
         ClearForm();
     }
+}
 }
