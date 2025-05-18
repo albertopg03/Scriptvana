@@ -8,10 +8,10 @@
     margin-right: 8px;
     margin-bottom: 8px;
     margin-left: 8px;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    border-bottom-left-radius: 12px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .input {
@@ -21,4 +21,30 @@
     margin-top: 8px;
     white-space: normal;
     text-overflow: clip;
+}
+
+.titleContainer {
+    -unity-font-style: normal;
+    font-size: 18px;
+    padding-bottom: 4px;
+}
+
+.truncate-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    unity-text-align: middle-left;
+    flex-grow: 1;
+}
+
+.button {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.titleContainer {
 }

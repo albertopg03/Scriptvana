@@ -33,7 +33,8 @@ public class MainWindow : EditorWindow
     {
         MainWindow window = GetWindow<MainWindow>();
         window.titleContent = new GUIContent("Scriptvana");
-        window.minSize = new Vector2(600, 200);
+        window.minSize = new Vector2(800, 320);
+        window.maxSize = new Vector2(1200, 320);
     }
 
     public void CreateGUI()
@@ -76,22 +77,27 @@ public class MainWindow : EditorWindow
             VisualElement rowOption = new VisualElement();
             rowOption.style.flexDirection = FlexDirection.Row;
             rowOption.style.justifyContent = Justify.SpaceBetween;
+            rowOption.style.alignItems = Align.Center;
+            rowOption.style.paddingLeft = 4;
+            rowOption.style.paddingRight = 4;
 
             Label label = new Label();
             label.name = "scriptLabel";
-            //label.style.flexGrow = 1;
-            label.AddToClassList("input");
+            label.AddToClassList("truncate-label"); 
 
             Button deleteOptionBtn = new Button();
             deleteOptionBtn.iconImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Icons/close.png");
             deleteOptionBtn.name = "deleteButton";
             deleteOptionBtn.style.width = 30;
+            deleteOptionBtn.style.height = 20;
+            deleteOptionBtn.style.marginLeft = 4;
 
             rowOption.Add(label);
             rowOption.Add(deleteOptionBtn);
 
             return rowOption;
         };
+
 
         _scriptListView.bindItem = (element, i) =>
         {
