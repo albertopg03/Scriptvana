@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Scriptvana.Editor.Models;
 using Scriptvana.Editor.Services;
+using Scriptvana.Editor.Validations.Rules;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -69,6 +70,7 @@ namespace Scriptvana.Editor.Windows
 
         // valores del dropdown
         _scriptTypeField.choices = new List<string>(Enum.GetNames(typeof(ScriptType)));
+        _scriptTypeField.index = (int)ScriptType.MonoBehaviour;
     }
 
     private void InitScriptListView()
@@ -167,12 +169,13 @@ namespace Scriptvana.Editor.Windows
 
             if (hasChanges)
             {
+                if (!Validation(_selectedScript)) return;
                 // Actualizar script existente
                 _selectedScript.Name = _scriptNameField.value;
                 _selectedScript.Type = scriptTypeSelected;
                 _selectedScript.Path = _pathTextField.value;
                 _selectedScript.NSpace = _nameSpaceField.value;
-
+                
                 Debug.Log($"Script actualizado: {_selectedScript.Name}");
             }
             else
@@ -190,10 +193,12 @@ namespace Scriptvana.Editor.Windows
                 _nameSpaceField.value,
                 _pathTextField.value
             );
-
+            
+            if (!Validation(newScript)) return;
+            
             scriptList.Add(_indexScript, newScript);
             _indexScript++;
-
+            
             Debug.Log($"Script nuevo añadido: {newScript.Name}");
         }
 
@@ -207,6 +212,29 @@ namespace Scriptvana.Editor.Windows
         
         // limpiar formulario
         ClearForm();
+    }
+
+    private bool Validation(ScriptDefinition script)
+    {
+        var validator = new BasicScriptValidationService(script);
+    
+        List<string> errors = validator.GetErrorMessages();
+    
+        if (errors.Count > 0)
+        {
+            string fullErrorMessage = string.Join("\n\n", errors);
+        
+            // Mostrar diálogo con todos los errores
+            EditorUtility.DisplayDialog(
+                "Error de Validación", 
+                $"Se encontraron los siguientes errores:\n\n{fullErrorMessage}", 
+                "OK"
+            );
+
+            return false;
+        }
+
+        return true;
     }
 
 
