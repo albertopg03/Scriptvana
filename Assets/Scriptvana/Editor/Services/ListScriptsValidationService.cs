@@ -3,29 +3,27 @@ using System.Linq;
 using Scriptvana.Editor.Models;
 using Scriptvana.Editor.Validations;
 using Scriptvana.Editor.Validations.Rules;
+using UnityEngine;
 
 namespace Scriptvana.Editor.Services
 {
-    public class BasicScriptValidationService
+    public class ListScriptsValidationService
     {
         private readonly ScriptDefinition _script;
+        private readonly IEnumerable<ScriptDefinition> _allScripts;
         private readonly List<ValidationResult> _validationResults = new();
 
-        public BasicScriptValidationService(ScriptDefinition script)
+        public ListScriptsValidationService(ScriptDefinition script, IEnumerable<ScriptDefinition> allScripts)
         {
             _script = script;
+            _allScripts = allScripts;
             Validate();
         }
-
-        public List<ValidationResult> GetValidationResults()
-        {
-            return _validationResults;
-        }
-
+        
         public List<string> GetErrorMessages()
         {
             return _validationResults
-                .Where(result => !result.IsValid || result.Severity == ValidationSeverity.Error)
+                .Where(result => !result.IsValid)
                 .Select(result => result.Message)
                 .ToList();
         }
@@ -34,8 +32,7 @@ namespace Scriptvana.Editor.Services
         {
             var validators = new List<IValidationRule>
             {
-                new ScriptNameRule(),
-                new NameSpaceRule()
+                new ScriptListViewRule(_allScripts) 
             };
 
             foreach (var validator in validators)
@@ -47,5 +44,6 @@ namespace Scriptvana.Editor.Services
                 }
             }
         }
+
     }
 }

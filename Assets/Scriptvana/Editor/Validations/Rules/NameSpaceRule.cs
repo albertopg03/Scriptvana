@@ -1,6 +1,7 @@
 using Scriptvana.Editor.Models;
 using System;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace Scriptvana.Editor.Validations.Rules
 {
@@ -52,9 +53,12 @@ namespace Scriptvana.Editor.Validations.Rules
             // Recomendación de estilo (como advertencia)
             if (char.IsLower(script.NSpace[0]))
             {
+                Debug.LogWarning("Recomendación: Usa PascalCase para namespaces (primera letra mayúscula)");
+                
                 return ValidationResult.Invalid(
                     "Recomendación: Usa PascalCase para namespaces (primera letra mayúscula)",
-                    ValidationSeverity.Warning
+                    ValidationSeverity.Warning,
+                    true
                 );
             }
 

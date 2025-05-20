@@ -1,5 +1,6 @@
 using Scriptvana.Editor.Models;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace Scriptvana.Editor.Validations.Rules
 {
@@ -18,10 +19,14 @@ namespace Scriptvana.Editor.Validations.Rules
                 return ValidationResult.Invalid("El nombre no puede terminar con espacio");
 
             if (char.IsLower(script.Name[0]))
-                return ValidationResult.Invalid(
-                    "Recomendación: Usa PascalCase (primera letra mayúscula)", 
-                    ValidationSeverity.Warning
+            {
+                Debug.LogWarning("Recomendación: Usa PascalCase (primera letra mayúscula)");
+                return ValidationResult.Invalid("Recomendación: Usa PascalCase (primera letra mayúscula)", 
+                    ValidationSeverity.Warning,
+                    true
                 );
+            }
+                
 
             return ValidationResult.Valid;
         }

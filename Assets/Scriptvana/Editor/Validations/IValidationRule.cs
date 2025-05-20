@@ -24,11 +24,11 @@ namespace Scriptvana.Editor.Validations
         public static ValidationResult Valid => new ValidationResult { IsValid = true };
 
         // Helper para crear resultados inválidos
-        public static ValidationResult Invalid(string message, ValidationSeverity severity = ValidationSeverity.Error)
+        public static ValidationResult Invalid(string message, ValidationSeverity severity = ValidationSeverity.Error, bool isValid = false)
         {
             return new ValidationResult
             {
-                IsValid = false,
+                IsValid = isValid,
                 Message = message,
                 Severity = severity
             };
