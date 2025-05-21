@@ -32,7 +32,7 @@ namespace Scriptvana.Editor.Services
         {
             var validators = new List<IValidationRule>
             {
-                new ScriptListViewRule(_allScripts) 
+                new ScriptListViewRule(_allScripts, _script) 
             };
 
             foreach (var validator in validators)

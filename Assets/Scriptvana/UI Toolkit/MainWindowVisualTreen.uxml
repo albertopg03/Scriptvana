@@ -1,8 +1,9 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/UI%20Toolkit/UnityThemes/MainWindowStyle.uss?fileID=7433441132597879392&amp;guid=2b7ad3b9b9ce37242a9ddd80b5f54712&amp;type=3#MainWindowStyle" />
+    <Style src="project://database/Assets/Scriptvana/UI%20Toolkit/UnityThemes/MainWindowStyle.uss?fileID=7433441132597879392&amp;guid=2b7ad3b9b9ce37242a9ddd80b5f54712&amp;type=3#MainWindowStyle" />
     <engine:VisualElement name="EditorSection" style="flex-grow: 1; width: 100%; height: 100%; flex-direction: column;">
-        <engine:VisualElement style="flex-grow: 1; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; background-color: rgb(40, 40, 40);">
+        <engine:VisualElement style="flex-grow: 1; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; background-color: rgb(40, 40, 40); flex-direction: row; align-items: center; justify-content: space-between; padding-right: 10px;">
             <engine:Label text="Scriptvana" name="Title" style="font-size: 24px; -unity-font-style: bold; padding-left: 0; padding-top: 0; padding-bottom: 0; padding-right: 0; color: rgb(251, 126, 32);" />
+            <engine:Label text="v1.0.0" name="Version" style="font-size: 14px; -unity-font-style: bold; padding-left: 0; padding-top: 0; padding-bottom: 0; padding-right: 0; color: rgb(251, 126, 32);" />
         </engine:VisualElement>
         <engine:IMGUIContainer style="flex-direction: row;">
             <engine:IMGUIContainer name="IMGUIContainer" class="container" style="width: 60%; height: 200px;">
@@ -15,7 +16,7 @@
                     <engine:TextField label="Name Space" placeholder-text="name space" hide-placeholder-on-focus="false" readonly="false" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="nameSpaceField" class="input" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center;" />
                     <engine:IMGUIContainer style="flex-direction: row; width: 100%;">
                         <engine:TextField label="Script name*" placeholder-text="name" hide-placeholder-on-focus="false" readonly="true" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="pathTextField" class="input" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; right: auto; width: 85%;" />
-                        <engine:Button name="browseButton" icon-image="project://database/Assets/Icons/folder.png?fileID=2800000&amp;guid=e0c681f59df82a245bb1c5dfc70ede31&amp;type=3#folder" display-tooltip-when-elided="true" style="width: 12%; font-size: 14px; height: auto;" />
+                        <engine:Button name="browseButton" icon-image="project://database/Assets/Scriptvana/Icons/Imgs/folder.png?fileID=2800000&amp;guid=e0c681f59df82a245bb1c5dfc70ede31&amp;type=3#folder" display-tooltip-when-elided="true" style="width: 12%; font-size: 14px; height: auto;" />
                     </engine:IMGUIContainer>
                     <engine:Button text="Add Script" name="saveFormButton" class="button" style="margin-top: 16px; font-size: 14px;" />
                 </engine:VisualElement>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Scriptvana.Editor.Models;
 using Scriptvana.Editor.Services;
-using Scriptvana.Editor.Validations.Rules;
+using Scriptvana.Icons;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,6 +15,8 @@ namespace Scriptvana.Editor.Windows
         // contenedor principal de la ventana
         [SerializeField]
         private VisualTreeAsset visualTreeAsset;
+
+        [Header("Iconos")] [SerializeField] private IconData iconData;
 
         // campos
         private TextField _scriptNameField;
@@ -68,6 +70,8 @@ namespace Scriptvana.Editor.Windows
             _exitEditorModeButton.clicked += OnExitEditorMode;
             _pathTextField.value = "Assets/";
 
+            _browseButton.iconImage = iconData.iconFolder;
+
             // valores del dropdown
             _scriptTypeField.choices = new List<string>(Enum.GetNames(typeof(ScriptType)));
             _scriptTypeField.index = (int)ScriptType.MonoBehaviour;
@@ -92,7 +96,7 @@ namespace Scriptvana.Editor.Windows
                 label.AddToClassList("truncate-label"); 
 
                 Button deleteOptionBtn = new Button();
-                deleteOptionBtn.iconImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Scriptvana/Icons/close.png");
+                deleteOptionBtn.iconImage = iconData.iconClose;
                 deleteOptionBtn.name = "deleteButton";
                 deleteOptionBtn.style.width = 30;
                 deleteOptionBtn.style.height = 20;
