@@ -70,7 +70,8 @@ namespace Scriptvana.Editor.Windows
             _exitEditorModeButton.clicked += OnExitEditorMode;
             _pathTextField.value = "Assets/";
 
-            _browseButton.iconImage = iconData.iconFolder;
+            // cambiado por iconImage de Unity 6...
+            AddCenteredIconToButton(_browseButton, iconData.iconFolder, new Vector2(20, 20));
 
             // valores del dropdown
             _scriptTypeField.choices = new List<string>(Enum.GetNames(typeof(ScriptType)));
@@ -96,7 +97,10 @@ namespace Scriptvana.Editor.Windows
                 label.AddToClassList("truncate-label"); 
 
                 Button deleteOptionBtn = new Button();
-                deleteOptionBtn.iconImage = iconData.iconClose;
+                
+                // cambiado por la propiedad iconImage de Unity 6...
+                AddCenteredIconToButton(deleteOptionBtn, iconData.iconClose, new Vector2(16, 16));
+                
                 deleteOptionBtn.name = "deleteButton";
                 deleteOptionBtn.style.width = 30;
                 deleteOptionBtn.style.height = 20;
@@ -144,6 +148,21 @@ namespace Scriptvana.Editor.Windows
                 }
             };
         }
+        
+        private void AddCenteredIconToButton(Button button, Texture2D texture, Vector2 size)
+        {
+            button.style.flexDirection = FlexDirection.Row;
+            button.style.justifyContent = Justify.Center;
+            button.style.alignItems = Align.Center;
+
+            var icon = new VisualElement();
+            icon.style.backgroundImage = new StyleBackground(texture);
+            icon.style.width = size.x;
+            icon.style.height = size.y;
+
+            button.Add(icon);
+        }
+
 
         private void RefreshForm(ScriptDefinition scriptSelected)
         {
