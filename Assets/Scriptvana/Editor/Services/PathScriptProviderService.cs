@@ -8,10 +8,10 @@ namespace Scriptvana.Editor.Services
     {
         private static readonly Dictionary<ScriptType, string> Scripts = new()
         {
-            { ScriptType.MonoBehaviour, "Assets/Scriptvana//Editor/Templates/Scripts/MonoBehaviourTemplate.txt" },
-            { ScriptType.ScriptableObject, "Assets/Scriptvana//Editor/Templates/Scripts/ScriptableObjectTemplate.txt" },
-            { ScriptType.Interface, "Assets/Scriptvana//Editor/Templates/Scripts/InterfaceTemplate.txt" },
-            { ScriptType.EmptyClass, "Assets/Scriptvana//Editor/Templates/Scripts/EmptyClassTemplate.txt" },
+            { ScriptType.MonoBehaviour, "Assets/Scriptvana/Editor/Templates/Scripts/MonoBehaviourTemplate.txt" },
+            { ScriptType.ScriptableObject, "Assets/Scriptvana/Editor/Templates/Scripts/ScriptableObjectTemplate.txt" },
+            { ScriptType.Interface, "Assets/Scriptvana/Editor/Templates/Scripts/InterfaceTemplate.txt" },
+            { ScriptType.EmptyClass, "Assets/Scriptvana/Editor/Templates/Scripts/EmptyClassTemplate.txt" },
         };
 
         public static string GetScriptPath(ScriptType type)

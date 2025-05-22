@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Scriptvana.Editor.Models;
-using UnityEngine;
 
 namespace Scriptvana.Editor.Validations.Rules
 {
@@ -27,8 +26,7 @@ namespace Scriptvana.Editor.Validations.Rules
             if (existsDuplicate)
             {
                 return ValidationResult.Invalid(
-                    $"Ya existe un script con el nombre '{newScript.Name}' en la ruta '{newScript.Path}'",
-                    ValidationSeverity.Error
+                    $"Ya existe un script con el nombre '{newScript.Name}' en la ruta '{newScript.Path}'"
                 );
             }
 

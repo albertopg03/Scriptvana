@@ -31,17 +31,17 @@ namespace Scriptvana.Editor.Windows
         private ListView _scriptListView;
 
         // lista de scripts
-        private int _indexScript = 0;
-        private ScriptDefinition _selectedScript = null;
-        private Dictionary<int, ScriptDefinition> scriptList = new();
+        private int _indexScript;
+        private ScriptDefinition _selectedScript;
+        private Dictionary<int, ScriptDefinition> _scriptList = new();
 
         [MenuItem("Tools/Scriptvana")]
         public static void ShowWindow()
         {
             MainWindow window = GetWindow<MainWindow>();
             window.titleContent = new GUIContent("Scriptvana");
-            window.minSize = new Vector2(800, 320);
-            window.maxSize = new Vector2(1200, 320);
+            window.minSize = new Vector2(800, 350);
+            window.maxSize = new Vector2(1200, 350);
         }
 
         public void CreateGUI()
@@ -80,7 +80,7 @@ namespace Scriptvana.Editor.Windows
 
         private void InitScriptListView()
         {
-            var items = scriptList.Values.ToList();
+            var items = _scriptList.Values.ToList();
             _scriptListView.itemsSource = items;
 
             _scriptListView.makeItem = () =>
@@ -115,7 +115,7 @@ namespace Scriptvana.Editor.Windows
 
             _scriptListView.bindItem = (element, i) =>
             {
-                List<ScriptDefinition> itemsLocal = scriptList.Values.ToList(); 
+                List<ScriptDefinition> itemsLocal = _scriptList.Values.ToList(); 
                 ScriptDefinition dataScript = itemsLocal[i];
 
                 Label label = element.Q<Label>("scriptLabel");
@@ -125,8 +125,8 @@ namespace Scriptvana.Editor.Windows
                 button.clickable.clicked -= null; // limpiar handlers anteriores
                 button.clickable.clicked += () =>
                 {
-                    var keyToRemove = scriptList.FirstOrDefault(x => x.Value == dataScript).Key;
-                    if (scriptList.Remove(keyToRemove))
+                    var keyToRemove = _scriptList.FirstOrDefault(x => x.Value == dataScript).Key;
+                    if (_scriptList.Remove(keyToRemove))
                     {
                         InitScriptListView();
                         OnExitEditorMode();
@@ -221,14 +221,14 @@ namespace Scriptvana.Editor.Windows
                 
                 if (!Validation(newScript)) return;
                 
-                scriptList.Add(_indexScript, newScript);
+                _scriptList.Add(_indexScript, newScript);
                 _indexScript++;
                 
                 Debug.Log($"Script nuevo añadido: {newScript.Name}");
             }
 
             // Refrescar UI
-            _scriptListView.itemsSource = scriptList.Values.ToList();
+            _scriptListView.itemsSource = _scriptList.Values.ToList();
             _scriptListView.Rebuild();
 
             // Limpiar selección para evitar confusiones
@@ -243,7 +243,7 @@ namespace Scriptvana.Editor.Windows
         {
             // objetos validadores
             var validator = new BasicScriptValidationService(script);
-            var scriptListValidator = new ListScriptsValidationService(script, scriptList.Values);
+            var scriptListValidator = new ListScriptsValidationService(script, _scriptList.Values);
         
             // listas de errores
             List<string> formErrors = validator.GetErrorMessages();
@@ -272,7 +272,7 @@ namespace Scriptvana.Editor.Windows
         private void OnGenerate()
         {
             ScriptGeneratorService generator = new ScriptGeneratorService();
-            generator.CreateFiles(scriptList);
+            generator.CreateFiles(_scriptList);
         }
 
         private void ClearForm()

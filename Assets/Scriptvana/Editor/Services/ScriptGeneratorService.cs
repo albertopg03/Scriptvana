@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Scriptvana.Editor.Models;
-using Scriptvana.Editor.Services;
 using UnityEditor;
 using UnityEngine;
 using static System.IO.File;
@@ -18,7 +17,7 @@ namespace Scriptvana.Editor.Services
             string fullPathInAssets = Path.Combine(pathRelativeToAssets, scriptName + ".cs");
             string directoryPath = Path.GetDirectoryName(fullPathInAssets);
 
-            if (!Directory.Exists(directoryPath))
+            if (directoryPath != null && !Directory.Exists(directoryPath))
             {
                 Debug.Log($"<color=orange>Scriptvana:</color> Creando directorio: {directoryPath}");
                 Directory.CreateDirectory(directoryPath);

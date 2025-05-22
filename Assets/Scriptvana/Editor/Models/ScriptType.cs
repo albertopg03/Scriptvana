@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Scriptvana.Editor.Models
 {
     public enum ScriptType

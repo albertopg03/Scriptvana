@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Scriptvana.Editor.Models
 {
     public class ScriptDefinition
@@ -17,11 +15,6 @@ namespace Scriptvana.Editor.Models
             Type = type;
             NSpace = nSpace;
             Path = path;
-        }
-
-        public override string ToString()
-        {
-            return $"{Name}.cs ({Type}) in {Path}";
         }
     }
 }

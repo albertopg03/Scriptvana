@@ -6,7 +6,7 @@
             <engine:Label text="v1.0.0" name="Version" style="font-size: 14px; -unity-font-style: bold; padding-left: 0; padding-top: 0; padding-bottom: 0; padding-right: 0; color: rgb(251, 126, 32);" />
         </engine:VisualElement>
         <engine:IMGUIContainer style="flex-direction: row;">
-            <engine:IMGUIContainer name="IMGUIContainer" class="container" style="width: 60%; height: 200px;">
+            <engine:IMGUIContainer name="IMGUIContainer" class="container" style="width: 60%; height: 100%;">
                 <engine:Label text="Settings" class="titleContainer" style="-unity-text-outline-width: 0;" />
                 <engine:VisualElement name="FormSection" style="flex-grow: 1; width: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(255, 255, 255);">
                     <engine:TextField label="Script name*" placeholder-text="name" hide-placeholder-on-focus="false" readonly="false" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="scriptNameField" class="input" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; right: auto; -unity-text-align: upper-left; white-space: normal; text-overflow: clip; background-color: rgba(0, 0, 0, 0);">
@@ -21,7 +21,7 @@
                     <engine:Button text="Add Script" name="saveFormButton" class="button" style="margin-top: 16px; font-size: 14px;" />
                 </engine:VisualElement>
             </engine:IMGUIContainer>
-            <engine:IMGUIContainer class="container" style="width: 40%; height: 200px;">
+            <engine:IMGUIContainer class="container" style="width: 40%; height: 100%;">
                 <engine:Label text="Script List" class="titleContainer" />
                 <engine:VisualElement name="ResultSection" style="flex-grow: 1; width: 100%; height: 143px;">
                     <engine:ListView name="ScriptListView" allow-remove="false" class="truncateText" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 14px; text-overflow: ellipsis;" />
@@ -29,7 +29,7 @@
                 </engine:VisualElement>
             </engine:IMGUIContainer>
         </engine:IMGUIContainer>
-        <engine:VisualElement style="flex-grow: 1; -unity-text-align: upper-left; align-items: center; width: 100%; height: 10%;">
+        <engine:VisualElement style="flex-grow: 1; -unity-text-align: upper-left; align-items: center; width: 100%; height: 10%; margin-top: 20px; margin-bottom: 20px;">
             <engine:Button text="Generate" name="createScriptButton" style="margin-top: 0; width: 50%; font-size: 16px; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; -unity-font-style: bold; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%;" />
         </engine:VisualElement>
     </engine:VisualElement>

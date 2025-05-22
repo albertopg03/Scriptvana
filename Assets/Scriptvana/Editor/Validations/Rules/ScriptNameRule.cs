@@ -26,8 +26,7 @@ namespace Scriptvana.Editor.Validations.Rules
                     true
                 );
             }
-                
-
+            
             return ValidationResult.Valid;
         }
     }

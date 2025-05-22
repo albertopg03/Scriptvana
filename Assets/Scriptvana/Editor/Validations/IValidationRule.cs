@@ -10,8 +10,7 @@ namespace Scriptvana.Editor.Validations
     public enum ValidationSeverity
     {
         Error,
-        Warning,
-        Info
+        Warning
     }
 
     public class ValidationResult

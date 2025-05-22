@@ -3,7 +3,6 @@ using System.Linq;
 using Scriptvana.Editor.Models;
 using Scriptvana.Editor.Validations;
 using Scriptvana.Editor.Validations.Rules;
-using UnityEngine;
 
 namespace Scriptvana.Editor.Services
 {
