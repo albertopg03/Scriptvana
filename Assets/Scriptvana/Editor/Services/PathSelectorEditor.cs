@@ -3,8 +3,18 @@ using UnityEngine;
 
 namespace Scriptvana.Editor.Services
 {
+    /// <summary>
+    /// Provee al usuario de una ventana para elegir qué ruta desea crear un script.
+    /// </summary>
     public class PathSelectorEditor 
     {
+        /// <summary>
+        /// Muestra una ventana para que el usuario elija una ruta, y, si la ruta elegida es válida para poder
+        /// almacenar un script, entonces con esta función obtenemos esa ruta relativa a la carpeta Assets.
+        /// En caso de que no sea válida, gestionamos el error aportándole feedback de lo ocurrido al usuario.
+        /// </summary>
+        /// <param name="pathSelected"></param>
+        /// <returns></returns>
         public string SelectPath(string pathSelected)
         {
             string currentPath = pathSelected;

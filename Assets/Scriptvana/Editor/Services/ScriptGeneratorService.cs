@@ -9,31 +9,50 @@ using Object = UnityEngine.Object;
 
 namespace Scriptvana.Editor.Services
 {
+    /// <summary>
+    /// Servicio que se encarga de gestionar la creación del script tras rellenar los datos del formulario básico.
+    /// </summary>
     public class ScriptGeneratorService
     {
+        /// <summary>
+        /// Función encargada de crear un fichero dada toda su configuración. Esa configuración viene del formulario
+        /// básico que indica el usuario a la hora de crear un fichero.
+        /// </summary>
+        /// <param name="scriptType">Tipo de script. Según el tipo, se usará un template u otro.</param>
+        /// <param name="scriptName">Nombre de la clase.</param>
+        /// <param name="pathRelativeToAssets">Ruta relativa al proyecto donde se creará el script.</param>
+        /// <param name="nSpace">(Opcional) Nombre del namespace donde se creará el script.</param>
+        /// <param name="autoReload">Este parámetro solo se usa si solo se crea un script, permitiendo recargar Unity tras crear un solo fichero.
+        /// En caso de que haya varios scripts, este parámetro debe estar a false, ya que la encarga de crear scripts de forma masiva, será
+        /// la función de CreateFiles.</param>
+        /// <returns></returns>
         public bool CreateFile(ScriptType scriptType, string scriptName, string pathRelativeToAssets,
             string nSpace = "", bool autoReload = false)
         {
             string fullPathInAssets = Path.Combine(pathRelativeToAssets, scriptName + ".cs");
             string directoryPath = Path.GetDirectoryName(fullPathInAssets);
 
+            // si se ha indicado una ruta y no existe ya previamente...
             if (directoryPath != null && !Directory.Exists(directoryPath))
             {
                 Debug.Log($"<color=orange>Scriptvana:</color> Creando directorio: {directoryPath}");
                 Directory.CreateDirectory(directoryPath);
             }
 
+            // obtemeos las rutas del tipo de script elegido y de los imports a incluir
             string templatePath = PathScriptProviderService.GetScriptPath(scriptType);
             string templateImportsPath = PathScriptProviderService.GetImportPath();
 
             try
             {
+                // comprobación de que no exista un fichero igual previamente
                 if (!Exists(templatePath))
                 {
                     Debug.LogError($"No se encontró la plantilla en: {templatePath}");
                     return false;
                 }
 
+                // se obtiene el contenido de las plantillas del tipo de script y de los imports, para luego volcar sobre el nuevo script
                 string scriptContent = ReadAllText(templatePath);
                 string importContent = Exists(templateImportsPath) ? ReadAllText(templateImportsPath) : "";
 
@@ -62,8 +81,10 @@ namespace Scriptvana.Editor.Services
                     return false;
                 }
 
+                // se vuelva el contenido de las plantillas y de lo rellenado al nuevo script.
                 WriteAllText(fullPathInAssets, scriptContent);
 
+                // validación que solo entra si se va a crear un script
                 if (autoReload)
                 {
                     Debug.Log(
@@ -90,8 +111,12 @@ namespace Scriptvana.Editor.Services
             }
         }
 
-
-
+        /// <summary>
+        /// Permite recorrer cada uno de los scripts almacenados temporalmente para finalmente crearlos. Hace uso
+        /// de la función CreateFile, que crea cada script de forma individual, y finalmente, tras terminar de
+        /// recorrer cada uno de los scripts, se recarga Unity para que el motor detecte los nuevos scripts.
+        /// </summary>
+        /// <param name="scripts">Lista de scripts almacenados temporalmente, que se van a generar.</param>
         public void CreateFiles(Dictionary<int, ScriptDefinition> scripts)
         {
             foreach (KeyValuePair<int, ScriptDefinition> script in scripts)

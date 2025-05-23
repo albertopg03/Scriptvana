@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace Scriptvana.Editor.Validations.Rules
 {
+    /// <summary>
+    /// Regla que controla todas las condiciones que debe de cumplir el campos NameSpace para que sea realmente válido
+    /// y evitar problemas a la hora de crear un script.
+    /// </summary>
     public class NameSpaceRule : IValidationRule
     {
         public ValidationResult Validate(ScriptDefinition script)
@@ -45,7 +49,7 @@ namespace Scriptvana.Editor.Validations.Rules
                 {
                     return ValidationResult.Invalid(
                         $"Evita usar '{keyword}' como namespace raíz (puede causar conflictos)",
-                        ValidationSeverity.Warning // Cambiado a Warning ya que no es un error técnico
+                        ValidationSeverity.Warning 
                     );
                 }
             }

@@ -4,6 +4,10 @@ using Scriptvana.Editor.Models;
 
 namespace Scriptvana.Editor.Validations.Rules
 {
+    /// <summary>
+    /// Regla que permite validar que la lista de scripts está correcta y no haya ninguna incoherencia o conflicto
+    /// entre los scripts ya almacenados y los que se van a almacenar a continuación.
+    /// </summary>
     public class ScriptListViewRule : IValidationRule
     {
         private readonly IEnumerable<ScriptDefinition> _existingScripts;

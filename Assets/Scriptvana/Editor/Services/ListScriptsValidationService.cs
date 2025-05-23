@@ -6,6 +6,12 @@ using Scriptvana.Editor.Validations.Rules;
 
 namespace Scriptvana.Editor.Services
 {
+    /// <summary>
+    /// Servicio de validación centrada en la lista de scripts. Cuando el usuario ha añadido un script (por lo tanto,
+    /// ha pasado por la validación básica -> BasicScriptValidationService.cs), se tiene que comprobar otra serie
+    /// de reglas para verificar que no hay ningún problema, ya que puede haber, por ejemplo, conflicto con scripts
+    /// ya añadidos, ya que estén repetidos.
+    /// </summary>
     public class ListScriptsValidationService
     {
         private readonly ScriptDefinition _script;
@@ -19,6 +25,11 @@ namespace Scriptvana.Editor.Services
             Validate();
         }
         
+        /// <summary>
+        /// Clase que devuelve todos los errores que detecte el servicio de validación de la lista de scripts
+        /// almacenados temporalmente.
+        /// </summary>
+        /// <returns></returns>
         public List<string> GetErrorMessages()
         {
             return _validationResults
@@ -27,6 +38,9 @@ namespace Scriptvana.Editor.Services
                 .ToList();
         }
 
+        /// <summary>
+        /// Función validadora que engrapa todas las reglas para verificar que la lista está correcta
+        /// </summary>
         private void Validate()
         {
             var validators = new List<IValidationRule>
