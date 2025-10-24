@@ -47,7 +47,8 @@ namespace Scriptvana.Editor.Services
             var validators = new List<IValidationRule>
             {
                 new ScriptNameRule(),
-                new NameSpaceRule()
+                new NameSpaceRule(),
+                new LimitCharactersNameRule()
             };
 
             foreach (var validator in validators)

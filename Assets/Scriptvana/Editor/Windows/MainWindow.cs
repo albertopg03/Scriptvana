@@ -226,14 +226,22 @@ namespace Scriptvana.Editor.Windows
 
                 if (hasChanges)
                 {
-                    if (!Validation(_selectedScript, true)) return;
-                    
+                    var editionTmpScript = new ScriptDefinition(
+                        _selectedScript.Id,
+                        _scriptNameField.value,
+                        scriptTypeSelected,
+                        _nameSpaceField.value,
+                        _pathTextField.value
+                    );
+
+                    if (!Validation(editionTmpScript, true)) return;
+
                     // Actualizar script existente
                     _selectedScript.Name = _scriptNameField.value;
                     _selectedScript.Type = scriptTypeSelected;
                     _selectedScript.Path = _pathTextField.value;
                     _selectedScript.NSpace = _nameSpaceField.value;
-                    
+
                     //Debug.Log($"Script actualizado: {_selectedScript.Name}");
                 }
                 else
@@ -318,6 +326,7 @@ namespace Scriptvana.Editor.Windows
             ScriptGeneratorService generator = new ScriptGeneratorService();
             generator.CreateFiles(_scriptList);
         }
+
 
         /// <summary>
         /// Limpia/resetea el formulario
