@@ -1,3 +1,4 @@
+using Scriptvana.Editor.Windows.Base;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -9,26 +10,15 @@ namespace Scriptvana.Editor.Windows
     /// de ajustes de usuario de la herramienta. Ajustes que podrá tocar
     /// el usuario para una mayor experiencia sobre la herramienta.
     /// </summary>
-    public class SettingsWindow : EditorWindow
+    public class SettingsWindow : BaseEditorWindow<SettingsWindow>
     {
-        // contenedor principal de la ventana
-        [SerializeField]
-        private VisualTreeAsset visualTreeAsset;
+        [MenuItem("Tools/Scriptvana/Settings")]
+        public static void Open() =>
+            ShowWindow(typeof(SettingsWindow), "Scriptvana Settings", new Vector2(800, 350), new Vector2(1200, 350));
 
-        [MenuItem("Tools/Scriptvana Settings")]
-        public static void ShowWindow()
+        protected override void OnAfterCreateGUI(VisualElement layout)
         {
-            SettingsWindow window = GetWindow<SettingsWindow>();
-            window.titleContent = new GUIContent("Scriptvana Settings");
-            window.minSize = new Vector2(800, 350);
-            window.maxSize = new Vector2(1200, 350);
-        }
-
-        private void CreateGUI()
-        {
-            var root = rootVisualElement;
-            var layout = visualTreeAsset.Instantiate();
-            root.Add(layout);
+            //TODO
         }
     }
 }

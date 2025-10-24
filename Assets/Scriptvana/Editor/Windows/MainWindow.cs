@@ -1,9 +1,10 @@
+using Scriptvana.Editor.Models;
+using Scriptvana.Editor.Services;
+using Scriptvana.Editor.Windows.Base;
+using Scriptvana.Icons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Scriptvana.Editor.Models;
-using Scriptvana.Editor.Services;
-using Scriptvana.Icons;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,12 +17,8 @@ namespace Scriptvana.Editor.Windows
     /// También recoge los datos del formulario, y llama a los servicios de rutas y validaciones para asegurarse
     /// y recoger para así mostrar al usuario si hay algún problema en algún momento del flujo de uso de la herramienta.
     /// </summary>
-    public class MainWindow : EditorWindow
+    public class MainWindow : BaseEditorWindow<MainWindow>
     {
-        // contenedor principal de la ventana
-        [SerializeField]
-        private VisualTreeAsset visualTreeAsset;
-
         // ScriptableObject con todos los datos de los que dispone la tool.
         [Header("Iconos")] [SerializeField] private IconData iconData;
 
@@ -43,29 +40,16 @@ namespace Scriptvana.Editor.Windows
         private ScriptDefinition _selectedScript;
         private Dictionary<int, ScriptDefinition> _scriptList = new();
 
-        /// <summary>
-        /// Función que se encarga de permitir al usuario acceder a la tool a través de la tab de Unity de "Tools"
-        /// 1. Indica el nombre de la herramienta -> Scriptvana
-        /// 2. Indica el tamaño mínimo y máximo que tendrá la ventana.
-        /// </summary>
-        [MenuItem("Tools/Scriptvana")]
-        public static void ShowWindow()
-        {
-            MainWindow window = GetWindow<MainWindow>();
-            window.titleContent = new GUIContent("Scriptvana");
-            window.minSize = new Vector2(800, 350);
-            window.maxSize = new Vector2(1200, 350);
-        }
+        [MenuItem("Tools/Scriptvana/Manager")]
+        public static void Open() =>
+            ShowWindow(typeof(MainWindow), "Scriptvana", new Vector2(800, 350), new Vector2(1200, 350));
+
 
         /// <summary>
         /// Genera y bindea todos los elementos de la vista con lo creado desde el UI Toolkit.
         /// </summary>
-        public void CreateGUI()
+        protected override void OnAfterCreateGUI(VisualElement layout)
         {
-            var root = rootVisualElement;
-            var layout = visualTreeAsset.Instantiate();
-            root.Add(layout);
-
             // bindea los campos creados desde el UI Toolkit para poder trabajarlos desde el código
             _scriptNameField = layout.Q<TextField>("scriptNameField");
             _scriptTypeField = layout.Q<DropdownField>("typeScriptField");
