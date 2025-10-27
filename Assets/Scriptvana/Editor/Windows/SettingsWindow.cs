@@ -21,6 +21,7 @@ namespace Scriptvana.Editor.Windows
     {
         // campos del formulario
         private IntegerField _minCharactersField;
+        private Toggle _namingConvertionField;
 
         // botón de guardado
         private Button _saveSettingsButton;
@@ -35,6 +36,7 @@ namespace Scriptvana.Editor.Windows
             // iniciación de los campos
             _minCharactersField = layout.Q<IntegerField>("minCharactersField");
             _saveSettingsButton = layout.Q<Button>("saveSettingsButton");
+            _namingConvertionField = layout.Q<Toggle>("namingConvertionField");
 
             // eventos
             _saveSettingsButton.clicked += OnSaveSettings;
@@ -49,6 +51,9 @@ namespace Scriptvana.Editor.Windows
         private void OnSaveSettings()
         {
             NormalizeNamePersistence.MinScriptNameLength = _minCharactersField.value;
+            NormalizeNamePersistence.UseNormalizeName = _namingConvertionField.value;
+
+            Debug.Log("Ajustes guardados correctamente");
         }
 
         /// <summary>
@@ -57,6 +62,7 @@ namespace Scriptvana.Editor.Windows
         private void PopulateSavedSettingsData()
         {
             _minCharactersField.value = NormalizeNamePersistence.MinScriptNameLength;
+            _namingConvertionField.value = NormalizeNamePersistence.UseNormalizeName;
         }
     }
 }

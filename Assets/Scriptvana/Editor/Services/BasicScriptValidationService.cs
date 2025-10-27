@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Scriptvana.Editor.Models;
+using Scriptvana.Editor.Persistence;
 using Scriptvana.Editor.Validations;
 using Scriptvana.Editor.Validations.Rules;
+using Scriptvana.Editor.Validations.Rules.Settings;
 
 namespace Scriptvana.Editor.Services
 {
@@ -48,7 +50,8 @@ namespace Scriptvana.Editor.Services
             {
                 new ScriptNameRule(),
                 new NameSpaceRule(),
-                new LimitCharactersNameRule()
+                new LimitCharactersNameRule(),
+                new NamingConventionRule(NormalizeNamePersistence.UseNormalizeName)
             };
 
             foreach (var validator in validators)

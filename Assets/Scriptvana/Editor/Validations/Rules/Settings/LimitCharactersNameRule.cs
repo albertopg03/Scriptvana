@@ -2,7 +2,7 @@ using Scriptvana.Editor.Models;
 using Scriptvana.Editor.Persistence;
 using UnityEditor;
 
-namespace Scriptvana.Editor.Validations.Rules
+namespace Scriptvana.Editor.Validations.Rules.Settings
 {
     public class LimitCharactersNameRule : IValidationRule
     {

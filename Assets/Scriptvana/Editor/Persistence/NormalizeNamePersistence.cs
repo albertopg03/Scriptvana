@@ -9,5 +9,11 @@ namespace Scriptvana.Editor.Persistence
             get => EditorPrefs.GetInt("minCharactersField");
             set => EditorPrefs.SetInt("minCharactersField", value);
         }
+
+        public static bool UseNormalizeName
+        {
+            get => EditorPrefs.GetBool("useNormalizeNameField");
+            set => EditorPrefs.SetBool("useNormalizeNameField", value);
+        }
     }
 }

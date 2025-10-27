@@ -9,6 +9,7 @@
                 <ui:Label text="Name normalization" class="titleContainer" style="-unity-text-outline-width: 0; font-size: 16px;" />
                 <ui:VisualElement name="FormSection" style="flex-grow: 1; width: 100%; padding-top: 12px; padding-right: 6px; padding-bottom: 12px; padding-left: 4px; color: rgb(255, 255, 255);">
                     <ui:IntegerField label="Min characters" value="4" password="false" max-length="3" name="minCharactersField" style="margin-right: 4px; flex-basis: auto;" />
+                    <ui:Toggle label="Pascal" value="false" name="namingConvertionField" />
                 </ui:VisualElement>
             </ui:IMGUIContainer>
         </ui:IMGUIContainer>
