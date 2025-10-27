@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Scriptvana.Editor.Persistence;
 
 namespace Scriptvana.Editor.Windows
 {
@@ -47,7 +48,7 @@ namespace Scriptvana.Editor.Windows
         /// </summary>
         private void OnSaveSettings()
         {
-            EditorPrefs.SetInt("minCharactersField", _minCharactersField.value);
+            NormalizeNamePersistence.MinScriptNameLength = _minCharactersField.value;
         }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace Scriptvana.Editor.Windows
         /// </summary>
         private void PopulateSavedSettingsData()
         {
-            _minCharactersField.value = EditorPrefs.GetInt("minCharactersField", _minCharactersField.value);
+            _minCharactersField.value = NormalizeNamePersistence.MinScriptNameLength;
         }
     }
 }

@@ -1,4 +1,5 @@
 using Scriptvana.Editor.Models;
+using Scriptvana.Editor.Persistence;
 using UnityEditor;
 
 namespace Scriptvana.Editor.Validations.Rules
@@ -8,15 +9,14 @@ namespace Scriptvana.Editor.Validations.Rules
         public ValidationResult Validate(ScriptDefinition script)
         {
             // Comprobar que el nombre del script corresponda con el límite establecido
-            if (script.Name.Length < EditorPrefs.GetInt("minCharactersField"))
+            if (script.Name.Length < NormalizeNamePersistence.MinScriptNameLength)
             {
                 return ValidationResult.Invalid(
-                        "El número de caracteres del nombre del script es superior al establecido. Consulta los ajustes de Scriptvana.",
+                        "El número de caracteres del nombre del script es inferior al establecido. Consulta los ajustes de Scriptvana.",
                         ValidationSeverity.Error,
                         false
                     );
             }
-
 
             return ValidationResult.Valid;
         }
