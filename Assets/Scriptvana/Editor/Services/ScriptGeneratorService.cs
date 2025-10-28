@@ -39,22 +39,17 @@ namespace Scriptvana.Editor.Services
                 Directory.CreateDirectory(directoryPath);
             }
 
-            // obtemeos las rutas del tipo de script elegido y de los imports a incluir
-            string templatePath = PathScriptProviderService.GetScriptPath(scriptType);
-            string templateImportsPath = PathScriptProviderService.GetImportPath();
-
             try
             {
-                // comprobación de que no exista un fichero igual previamente
-                if (!Exists(templatePath))
+                // Obtener el contenido de las plantillas desde Resources
+                string scriptContent = PathScriptProviderService.GetScriptTemplate(scriptType);
+                string importContent = PathScriptProviderService.GetImportTemplate();
+
+                if (string.IsNullOrEmpty(scriptContent))
                 {
-                    Debug.LogError($"No se encontró la plantilla en: {templatePath}");
+                    Debug.LogError($"No se pudo cargar la plantilla para el tipo: {scriptType}");
                     return false;
                 }
-
-                // se obtiene el contenido de las plantillas del tipo de script y de los imports, para luego volcar sobre el nuevo script
-                string scriptContent = ReadAllText(templatePath);
-                string importContent = Exists(templateImportsPath) ? ReadAllText(templateImportsPath) : "";
 
                 // Reemplazos básicos
                 scriptContent = scriptContent.Replace("{scriptName}", scriptName)

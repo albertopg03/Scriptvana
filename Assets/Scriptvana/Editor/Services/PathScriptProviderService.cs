@@ -1,42 +1,66 @@
 using System.Collections.Generic;
 using System.Linq;
 using Scriptvana.Editor.Models;
+using UnityEngine;
 
 namespace Scriptvana.Editor.Services
 {
     /// <summary>
     /// Servicio que provee todas las rutas importantes que requiere la tool. Principalmente dónde se sitúan
-    /// las plantillas de los tipos de scripts. Todas las rutas son relativas al proyecto, desde Assets.
+    /// las plantillas de los tipos de scripts. Todas las rutas son relativas a Resources.
     /// </summary>
     public static class PathScriptProviderService
     {
-        // Diccionario que almacena todas las rutas de cada tipo de plantilla de script posible de generar.
+        // Diccionario que almacena todas las rutas de cada tipo de plantilla de script dentro de Resources
         private static readonly Dictionary<ScriptType, string> Scripts = new()
         {
-            { ScriptType.MonoBehaviour, "Assets/Scriptvana/Editor/Templates/Scripts/MonoBehaviourTemplate.txt" },
-            { ScriptType.ScriptableObject, "Assets/Scriptvana/Editor/Templates/Scripts/ScriptableObjectTemplate.txt" },
-            { ScriptType.Interface, "Assets/Scriptvana/Editor/Templates/Scripts/InterfaceTemplate.txt" },
-            { ScriptType.EmptyClass, "Assets/Scriptvana/Editor/Templates/Scripts/EmptyClassTemplate.txt" },
+            { ScriptType.MonoBehaviour, "Templates/MonoBehaviourTemplate" },
+            { ScriptType.ScriptableObject, "Templates/ScriptableObjectTemplate" },
+            { ScriptType.Interface, "Templates/InterfaceTemplate" },
+            { ScriptType.EmptyClass, "Templates/EmptyClassTemplate" },
         };
 
         /// <summary>
-        /// Función enargada de devolver, dado un tipo de script, dónde se encuentra su plantilla, retornando
-        /// la ruta desde Assets. Esta función permite no acceder directamente al diccionario.
+        /// Función encargada de devolver el contenido de la plantilla dado un tipo de script.
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static string GetScriptPath(ScriptType type)
+        /// <param name="type">Tipo de script</param>
+        /// <returns>Contenido de la plantilla como string</returns>
+        public static string GetScriptTemplate(ScriptType type)
         {
-            return Scripts.FirstOrDefault(script => script.Key == type).Value;
+            string resourcePath = Scripts.FirstOrDefault(script => script.Key == type).Value;
+
+            if (string.IsNullOrEmpty(resourcePath))
+            {
+                Debug.LogError($"No se encontró la ruta para el tipo de script: {type}");
+                return null;
+            }
+
+            TextAsset templateAsset = Resources.Load<TextAsset>(resourcePath);
+
+            if (templateAsset == null)
+            {
+                Debug.LogError($"No se pudo cargar la plantilla desde Resources: {resourcePath}");
+                return null;
+            }
+
+            return templateAsset.text;
         }
 
         /// <summary>
-        /// Simplemente retorna la ruta donde se encuentra la plantilla con los imports básicos.
+        /// Retorna el contenido de la plantilla con los imports básicos.
         /// </summary>
-        /// <returns></returns>
-        public static string GetImportPath()
+        /// <returns>Contenido de los imports como string</returns>
+        public static string GetImportTemplate()
         {
-            return "Assets/Scriptvana//Editor/Templates/Imports/BasicImports.txt";
+            TextAsset importAsset = Resources.Load<TextAsset>("Templates/Imports/BasicImports");
+
+            if (importAsset == null)
+            {
+                Debug.LogWarning("No se encontró la plantilla de imports en Resources/Templates/Imports/BasicImports");
+                return string.Empty;
+            }
+
+            return importAsset.text;
         }
     }
 }
