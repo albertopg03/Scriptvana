@@ -1,4 +1,5 @@
 using Scriptvana.Editor.Models;
+using Scriptvana.Editor.Persistence;
 using Scriptvana.Editor.Services;
 using Scriptvana.Editor.Windows.Base;
 using Scriptvana.Icons;
@@ -64,13 +65,14 @@ namespace Scriptvana.Editor.Windows
             InitScriptListView();
 
             _exitEditorModeButton.SetEnabled(false);
+            _pathTextField.isReadOnly = !RoutePersistence.ManualEditablePath;
             
             // suscribe a los botones con ciertas funciones
             _browseButton.clicked += OnBrowse;
             _saveButton.clicked += OnAdd;
             _createButton.clicked += OnGenerate;
             _exitEditorModeButton.clicked += OnExitEditorMode;
-            _pathTextField.value = "Assets/";
+            _pathTextField.value = RoutePersistence.DefaultPath;
 
             // cambiado por iconImage de Unity 6..., permite cargar los iconos
             AddCenteredIconToButton(_browseButton, iconData.iconFolder, new Vector2(20, 20));
@@ -335,7 +337,7 @@ namespace Scriptvana.Editor.Windows
         {
             _scriptNameField.value = "";
             _nameSpaceField.value = "";
-            _pathTextField.value = "Assets/";
+            _pathTextField.value = RoutePersistence.DefaultPath;
             _scriptTypeField.value = _scriptTypeField.choices.FirstOrDefault();
         }
 
