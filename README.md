@@ -118,6 +118,7 @@ A: Yes, the tool has no graphical dependencies and is compatible with all pipeli
 | 1.0.0-beta  | 2025-05-26 | Versión beta inicial.                 |
 | 1.0.1-beta  | 2025-10-23 | Fixed Unity security issue            |
 | 1.1.0-beta  | 2025-10-28 | Custom configuration window for the operation of the tool            |
+| 1.2.0-beta  | 2025-10-28 | High modification in folder structure + possibility of downloading the tool via Git URL            |
 
 ---
 
