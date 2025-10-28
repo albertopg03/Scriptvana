@@ -1,8 +1,30 @@
 {
   "name": "com.albertopg03.scriptvana",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "displayName": "Scriptvana",
-  "description": "Agile and massive management tool for creating scripts in Unity.",
-  "unity": "2021.3",
-  "keywords": [ "tool", "editor", "scripting" ]
+  "description": "Agile and massive management tool for creating scripts in Unity. Simplify your workflow with customizable templates, batch script generation, and smart validations.",
+  "unity": "6000.2.6f2",
+  "keywords": [
+    "tool",
+    "editor",
+    "scripting",
+    "code generation",
+    "templates",
+    "workflow",
+    "productivity"
+  ],
+  "author": {
+    "name": "Alberto Peña",
+    "url": "https://github.com/albertopg03/Scriptvana"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/albertopg03/scriptvana.git"
+  },
+  "license": "MIT",
+  "documentationUrl": "https://github.com/albertopg03/Scriptvana?tab=readme-ov-file#scriptvana-user-manual",
+  "changelogUrl": "https://github.com/albertopg03/Scriptvana?tab=readme-ov-file#changelog",
+  "licensesUrl": "https://github.com/albertopg03/Scriptvana?tab=MIT-1-ov-file",
+  "dependencies": {},
+  "samples": []
 }
