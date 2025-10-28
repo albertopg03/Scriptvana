@@ -1,0 +1,8 @@
+{
+  "name": "com.albertopg03.scriptvana",
+  "version": "1.1.0",
+  "displayName": "Scriptvana",
+  "description": "Agile and massive management tool for creating scripts in Unity.",
+  "unity": "2021.3",
+  "keywords": [ "tool", "editor", "scripting" ]
+}
