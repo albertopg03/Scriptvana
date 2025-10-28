@@ -34,7 +34,7 @@ namespace Scriptvana.Editor.Windows
 
         [MenuItem("Tools/Scriptvana/Settings")]
         public static void Open() =>
-            ShowWindow(typeof(SettingsWindow), "Scriptvana Settings", new Vector2(350, 600), new Vector2(350, 1200));
+            ShowWindow(typeof(SettingsWindow), "Scriptvana Settings", new Vector2(350, 300), new Vector2(350, 300));
 
         protected override void OnAfterCreateGUI(VisualElement layout)
         {

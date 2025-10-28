@@ -64,6 +64,7 @@ namespace Scriptvana.Editor.Windows
             _scriptListView = layout.Q<ListView>("ScriptListView");
             InitScriptListView();
 
+            // modificaciones individuales para ciertos campos
             _exitEditorModeButton.SetEnabled(false);
             _pathTextField.isReadOnly = !RoutePersistence.ManualEditablePath;
             
@@ -161,6 +162,7 @@ namespace Scriptvana.Editor.Windows
                 if (_selectedScript != null)
                 {
                     _exitEditorModeButton.SetEnabled(true);
+                    _saveButton.text = "Apply Changes";
                     RefreshForm(_selectedScript);
                 }
             };
@@ -352,7 +354,8 @@ namespace Scriptvana.Editor.Windows
             _scriptListView.ClearSelection();
             _selectedScript = null;
             _exitEditorModeButton.SetEnabled(false);
-            
+            _saveButton.text = "Add Script";
+
             ClearForm();
         }
     }
