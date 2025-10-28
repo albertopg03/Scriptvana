@@ -5,10 +5,13 @@ using UnityEngine.UIElements;
 
 namespace Scriptvana.Editor.Windows.Base
 {
-    public abstract class BaseEditorWindow<T> : EditorWindow where T: EditorWindow
+    public abstract class BaseEditorWindow<T> : EditorWindow where T : EditorWindow
     {
-        [SerializeField]
-        protected VisualTreeAsset visualTreeAsset;
+        /// <summary>
+        /// Ruta relativa del UXML dentro de Resources/UI/
+        /// Ejemplo: "SettingsWindow" cargará "Resources/UI/SettingsWindow.uxml"
+        /// </summary>
+        protected abstract string UxmlResourcePath { get; }
 
         /// <summary>
         /// Crea y muestra la ventana.
@@ -27,9 +30,18 @@ namespace Scriptvana.Editor.Windows.Base
         protected virtual void CreateGUI()
         {
             var root = rootVisualElement;
+
+            // Cargar UXML desde Resources
+            var visualTreeAsset = Resources.Load<VisualTreeAsset>($"UI/{UxmlResourcePath}");
+
+            if (visualTreeAsset == null)
+            {
+                Debug.LogError($"No se pudo cargar el UXML: Resources/UI/{UxmlResourcePath}.uxml");
+                return;
+            }
+
             var layout = visualTreeAsset.Instantiate();
             root.Add(layout);
-
             OnAfterCreateGUI(layout);
         }
 

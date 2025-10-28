@@ -1,13 +1,11 @@
 {
     "name": "Scriptvana.Editor",
-    "rootNamespace": "",
-    "references": [
-        "GUID:b237885c1f4b99b4ca86dd70ea99a9a8"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": [
+    "rootNamespace": "Scriptvana.Editor",
+    "references": [],
+    "includePlatforms": [
         "Editor"
     ],
+    "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],

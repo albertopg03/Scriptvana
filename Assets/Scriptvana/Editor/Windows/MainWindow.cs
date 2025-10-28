@@ -2,7 +2,6 @@ using Scriptvana.Editor.Models;
 using Scriptvana.Editor.Persistence;
 using Scriptvana.Editor.Services;
 using Scriptvana.Editor.Windows.Base;
-using Scriptvana.Icons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +19,8 @@ namespace Scriptvana.Editor.Windows
     /// </summary>
     public class MainWindow : BaseEditorWindow<MainWindow>
     {
-        // ScriptableObject con todos los datos de los que dispone la tool.
-        [Header("Iconos")] [SerializeField] private IconData iconData;
+        // ⭐ AÑADE ESTA LÍNEA
+        protected override string UxmlResourcePath => "MainWindowVisualTreen";
 
         // campos del formulario
         private TextField _scriptNameField;
@@ -60,14 +59,14 @@ namespace Scriptvana.Editor.Windows
             _saveButton = layout.Q<Button>("saveFormButton");
             _createButton = layout.Q<Button>("createScriptButton");
             _exitEditorModeButton = layout.Q<Button>("exitEditorModeButton");
-            
+
             _scriptListView = layout.Q<ListView>("ScriptListView");
             InitScriptListView();
 
             // modificaciones individuales para ciertos campos
             _exitEditorModeButton.SetEnabled(false);
             _pathTextField.isReadOnly = !RoutePersistence.ManualEditablePath;
-            
+
             // suscribe a los botones con ciertas funciones
             _browseButton.clicked += OnBrowse;
             _saveButton.clicked += OnAdd;
@@ -75,8 +74,12 @@ namespace Scriptvana.Editor.Windows
             _exitEditorModeButton.clicked += OnExitEditorMode;
             _pathTextField.value = RoutePersistence.DefaultPath;
 
-            // cambiado por iconImage de Unity 6..., permite cargar los iconos
-            AddCenteredIconToButton(_browseButton, iconData.iconFolder, new Vector2(20, 20));
+            // ⭐ CAMBIA ESTA PARTE - Usar IconData singleton
+            var iconData = IconData.Instance;
+            if (iconData != null)
+            {
+                AddCenteredIconToButton(_browseButton, iconData.iconFolder, new Vector2(20, 20));
+            }
 
             // valores del dropdown
             _scriptTypeField.choices = new List<string>(Enum.GetNames(typeof(ScriptType)));
@@ -112,10 +115,14 @@ namespace Scriptvana.Editor.Windows
 
                 // crea el botón para eliminar dicho elemento de la lista
                 Button deleteOptionBtn = new Button();
-                
-                // cambiado por la propiedad iconImage de Unity 6... le asigna un icono al botón
-                AddCenteredIconToButton(deleteOptionBtn, iconData.iconClose, new Vector2(16, 16));
-                
+
+                // ⭐ CAMBIA ESTA PARTE - Usar IconData singleton
+                var iconData = IconData.Instance;
+                if (iconData != null)
+                {
+                    AddCenteredIconToButton(deleteOptionBtn, iconData.iconClose, new Vector2(16, 16));
+                }
+
                 // estiliza el  botón de borrado
                 deleteOptionBtn.name = "deleteButton";
                 deleteOptionBtn.style.width = 30;
@@ -133,7 +140,7 @@ namespace Scriptvana.Editor.Windows
             // tras crear el elemento, lo bindea con la lógica de los scripts
             _scriptListView.bindItem = (element, i) =>
             {
-                List<ScriptDefinition> itemsLocal = _scriptList.Values.ToList(); 
+                List<ScriptDefinition> itemsLocal = _scriptList.Values.ToList();
                 ScriptDefinition dataScript = itemsLocal[i];
 
                 Label label = element.Q<Label>("scriptLabel");
@@ -155,7 +162,7 @@ namespace Scriptvana.Editor.Windows
 
             _scriptListView.selectionType = SelectionType.Single;
             _scriptListView.fixedItemHeight = 24;
-            
+
             _scriptListView.selectionChanged += selected =>
             {
                 _selectedScript = selected.FirstOrDefault() as ScriptDefinition;
@@ -167,7 +174,7 @@ namespace Scriptvana.Editor.Windows
                 }
             };
         }
-        
+
         /// <summary>
         /// Función auxiliar que permite añadir un icono a un botón. Esto se ha creado para dar soporte
         /// a los iconos para versiones inferiores al Unity 6, ya que solo en esta versión en adelante,
@@ -245,12 +252,6 @@ namespace Scriptvana.Editor.Windows
                     _selectedScript.Type = scriptTypeSelected;
                     _selectedScript.Path = _pathTextField.value;
                     _selectedScript.NSpace = _nameSpaceField.value;
-
-                    //Debug.Log($"Script actualizado: {_selectedScript.Name}");
-                }
-                else
-                {
-                    //Debug.Log("Sin cambios detectados. Nada que hacer.");
                 }
             }
             else
@@ -263,13 +264,11 @@ namespace Scriptvana.Editor.Windows
                     _nameSpaceField.value,
                     _pathTextField.value
                 );
-                
+
                 if (!Validation(newScript)) return;
-                
+
                 _scriptList.Add(_indexScript, newScript);
                 _indexScript++;
-                
-                //Debug.Log($"Script nuevo añadido: {newScript.Name}");
             }
 
             // Refrescar UI
@@ -279,7 +278,7 @@ namespace Scriptvana.Editor.Windows
             // Limpiar selección para evitar confusiones
             _scriptListView.selectedIndex = -1;
             _selectedScript = null;
-            
+
             // limpiar formulario
             ClearForm();
         }
@@ -296,23 +295,23 @@ namespace Scriptvana.Editor.Windows
             // objetos validadores
             var validator = new BasicScriptValidationService(script);
             var scriptListValidator = new ListScriptsValidationService(script, _scriptList.Values);
-        
+
             // listas de errores
             List<string> formErrors = validator.GetErrorMessages();
             List<string> scriptListErrors = !isEditing ? scriptListValidator.GetErrorMessages() : new List<string>();
-        
+
             // lista con TODOS los errores posibles
             List<string> allErrors = formErrors.Concat(scriptListErrors).ToList();
-            
+
             // si hay errores...
             if (allErrors.Count > 0)
             {
                 string fullErrorMessage = string.Join("\n\n", allErrors);
-            
+
                 // Mostrar diálogo con todos los errores
                 EditorUtility.DisplayDialog(
-                    "Error de Validación", 
-                    $"Se encontraron los siguientes errores:\n\n{fullErrorMessage}", 
+                    "Error de Validación",
+                    $"Se encontraron los siguientes errores:\n\n{fullErrorMessage}",
                     "OK"
                 );
 
