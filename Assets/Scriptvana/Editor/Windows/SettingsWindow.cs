@@ -10,8 +10,8 @@ namespace Scriptvana.Editor.Windows
 {
     public class SettingsWindow : BaseEditorWindow<SettingsWindow>
     {
-        // Sobrescribir la ruta del UXML
-        protected override string UxmlResourcePath => "SettingsWindowVisualTree";
+        [SerializeField] private VisualTreeAsset _visualTree;
+        protected override VisualTreeAsset VisualTree => _visualTree;
 
         private IntegerField _minCharactersField;
         private Toggle _namingConvertionField;

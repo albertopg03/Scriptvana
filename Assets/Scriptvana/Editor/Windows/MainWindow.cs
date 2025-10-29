@@ -19,8 +19,8 @@ namespace Scriptvana.Editor.Windows
     /// </summary>
     public class MainWindow : BaseEditorWindow<MainWindow>
     {
-        // ⭐ AÑADE ESTA LÍNEA
-        protected override string UxmlResourcePath => "MainWindowVisualTreen";
+        [SerializeField] private VisualTreeAsset _visualTree;
+        protected override VisualTreeAsset VisualTree => _visualTree;
 
         // campos del formulario
         private TextField _scriptNameField;
