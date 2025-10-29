@@ -1,125 +1,190 @@
-# Scriptvana User Manual
+# 🚀 Scriptvana
 
-## Overview
+**Agile and massive script generation tool for Unity.**
 
-This manual is intended to guide users through the installation, configuration, and usage of **Scriptvana**, a custom Unity Editor extension developed to optimize common workflows during game development.
+Scriptvana is a powerful Unity Editor extension that streamlines the script creation workflow. Stop wasting time creating boilerplate code manually—generate multiple scripts at once with customizable templates, smart validations, and an intuitive UI.
 
-This tool is designed to **streamline repetitive tasks**, **automate common processes** within the Unity Editor, and provide an **intuitive interface** for developers and designers. It's especially useful in medium to large projects where efficiency and organization make the difference.
-
----
-
-## Table of Contents
-
-1. [Installation](#installation)
-2. [Getting Started](#getting-started)
-3. [User Interface Overview](#user-interface-overview)
-4. [Core Features](#core-features)
-5. [Integration with Existing Projects](#integration-with-existing-projects)
-6. [Common Use Cases](#common-use-cases)
-7. [Troubleshooting](#troubleshooting)
-8. [FAQ](#faq)
-9. [Changelog](#changelog)
+[![Unity Version](https://img.shields.io/badge/Unity-2021.3%2B-black.svg)](https://unity.com)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-1.2.0-green.svg)](CHANGELOG.md)
 
 ---
 
-## Installation
+## ✨ Features
 
-### Requirements
-
-- Unity version: `2022.3 LTS` or higher.  
-  *Note: The tool may work on earlier versions, but they have not been tested.*
-- Compatible with URP, HDRP, and Built-in Render Pipeline  
-- Supported OS: Windows, macOS
-
-### Steps
-
-1. Download the `.unitypackage` file or clone the repository from GitHub.
-2. Open your Unity project.
-3. Import the package via `Assets > Import Package > Custom Package...`.
-4. Ensure there are no compile errors in the Console.
-
-> ⚠️ If you already have a previous version installed, it is recommended to delete it before importing the new one.
+- **Batch Script Creation**: Queue multiple scripts and generate them all at once
+- **Customizable Templates**: Built-in templates for MonoBehaviour, ScriptableObject, Interface, and Empty Class
+- **Smart Validations**: Real-time validation for script names, paths, and naming conventions
+- **Flexible Configuration**: Configure default paths, minimum name length, and naming conventions
+- **User-Friendly UI**: Built with Unity's UI Toolkit for a modern, responsive interface
+- **Path Browser**: Visual folder selection within your Assets directory
+- **Edit Mode**: Modify queued scripts before generation
+- **Persistent Settings**: Your preferences are saved between sessions
 
 ---
 
-## Getting Started
+## 📦 Installation
 
-1. After importing, access the tool via `Window > Scriptvana`.
-2. A new dockable window will appear in the Unity Editor.
-3. Select a GameObject in the scene or project, if required.
-4. Follow the on-screen instructions or navigate through the available tabs.
+### Via Git URL (Recommended)
 
----
+1. Open Unity Package Manager (`Window > Package Manager`)
+2. Click the `+` button in the top-left corner
+3. Select `Add package from git URL...`
+4. Paste the following URL:
+   ```
+   https://github.com/albertopg03/Scriptvana.git?path=/Assets/Scriptvana
+   ```
+5. Click `Add`
 
-## User Interface Overview
+### Manual Installation
 
-The tool's interface is designed to offer a clean and streamlined experience for script creation inside the Unity Editor.
-
-- **Input Fields**: Editable fields to define the script name, namespace (optional), and target folder within the `Assets/` directory.
-- **Script Preview Panel**: Displays a live preview of the script that will be generated. This allows users to review the full code before creating the file.
-- **Validation Messages**: If any input is invalid (e.g. incorrect path, invalid characters in the name), the tool provides clear, contextual error messages to guide the user.
-- **Create Button**: Once all required fields are correctly filled out, clicking this button generates the script file at the specified location.
-
-> The tool window can be opened via `Tools > Scriptvana` within the Unity Editor.
-
-## Core Features
-
-### ✅ Automatic Scene Organizer  
-Organizes objects within the hierarchy based on their type or tag.
-
-- Automatically groups GameObjects under parent folders.
-- Improves readability and navigation in complex scenes.
-- Supports custom grouping rules.
+1. Download or clone this repository
+2. Copy the `Scriptvana` folder into your project's `Assets` directory
+3. Unity will automatically import the package
 
 ---
 
-## Integration with Existing Projects
+## 🎮 Getting Started
 
-The tool is designed to be **non-intrusive**, and all core code is encapsulated under the `Scriptvana` namespace.
+### Opening Scriptvana
 
-**Recommendations:**
-- Avoid directly modifying core scripts.
+Access the tool via Unity's top menu:
+- **Main Window**: `Tools > Scriptvana > Manager`
+- **Settings Window**: `Tools > Scriptvana > Settings`
 
----
+### Creating Your First Script
 
-## Common Use Cases
-
-- Creation of standalone scripts
-- Bulk generation of multiple scripts
-- Preview and edit of script templates before creation
-- Selection of a valid asset path within the `Assets` directory
-- Error handling and validation of paths, names, and settings
-
----
-
-## Troubleshooting
-
-| Issue                              | Suggested Solution                                                   |
-|------------------------------------|-----------------------------------------------------------------------|
-| Tool does not appear in the menu   | Check the Console for compile errors or naming conflicts.            |
-| Changes are not applied            | Ensure the correct objects or fields are selected and editable.      |
+1. Open the **Manager** window
+2. Fill in the script details:
+   - **Script Name**: The name of your class (e.g., `PlayerController`)
+   - **Script Type**: Choose from MonoBehaviour, ScriptableObject, Interface, or Empty Class
+   - **Namespace** (optional): Organize your code with namespaces
+   - **Path**: Target folder within Assets (use the 📁 button to browse)
+3. Click **Add Script** to queue it
+4. Add more scripts if needed
+5. Click **Create Scripts** to generate all queued scripts
 
 ---
 
-## FAQ
+## 🛠️ User Interface Overview
 
-**Q: Can I customize the templates?**  
-A: Yes, with some limitations. You can access and edit the code under the `Templates` section. Please proceed with caution. Future updates aim to provide additional built-in templates and support for custom user-created templates.
+### Main Window
 
-**Q: Does it work with URP or HDRP?**  
-A: Yes, the tool has no graphical dependencies and is compatible with all pipelines.
+**Form Section:**
+- **Script Name Field**: Enter the desired class name
+- **Script Type Dropdown**: Select the template type
+- **Namespace Field**: Optional namespace for the script
+- **Path Field**: Target directory (click 📁 to browse)
+- **Add Script Button**: Queue the script for generation
+
+**Script List:**
+- View all queued scripts before generation
+- Click any script to edit its properties
+- Remove scripts with the ❌ button
+
+**Actions:**
+- **Create Scripts**: Generate all queued scripts
+- **Exit Editor Mode**: Return to add mode after editing
+
+### Settings Window
+
+Configure global preferences:
+- **Minimum Characters**: Set minimum script name length (default: 3)
+- **Use Naming Convention**: Enable PascalCase validation
+- **Manually Editable Path**: Allow manual path editing
+- **Default Path**: Set your preferred default directory
 
 ---
 
-## Changelog
+## 📚 Script Templates
 
-| Version     | Date       | Notes                                |
-|-------------|------------|---------------------------------------|
-| 1.0.0-beta  | 2025-05-26 | Versión beta inicial.                 |
-| 1.0.1-beta  | 2025-10-23 | Fixed Unity security issue            |
-| 1.1.0-beta  | 2025-10-28 | Custom configuration window for the operation of the tool            |
-| 1.2.0-beta  | 2025-10-28 | High modification in folder structure + possibility of downloading the tool via Git URL            |
+Scriptvana includes four built-in templates:
+
+### 1. MonoBehaviour
+Standard Unity component script with Start() and Update() methods.
+
+### 2. ScriptableObject
+Data container script with CreateAssetMenu attribute.
+
+### 3. Interface
+Interface definition with basic structure.
+
+### 4. Empty Class
+Minimal C# class template.
+
+> 💡 **Tip**: All templates support optional namespaces and include basic Unity imports.
 
 ---
 
-*Thank you for using this tool. Your feedback is key to continued improvement.*
+## 🔧 Configuration
+
+### Global Settings
+
+Open `Tools > Scriptvana > Settings` to configure:
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Min Characters | Minimum script name length | 3 |
+| Naming Convention | Enforce PascalCase naming | Enabled |
+| Manually Editable Path | Allow typing paths directly | Disabled |
+| Default Path | Starting directory for new scripts | Assets/Scripts |
+
+Settings are automatically saved using Unity's EditorPrefs.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📋 Requirements
+
+- **Unity Version**: 2021.3 LTS or higher
+- **Render Pipelines**: Compatible with Built-in, URP, and HDRP
+- **Platforms**: Windows, macOS, Linux
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📝 Changelog
+
+
+
+---
+
+## 🙏 Acknowledgments
+
+- Built with Unity's UI Toolkit
+- Inspired by the need for faster iteration in game development
+- Thanks to the Unity community for feedback and support
+
+---
+
+## 📬 Contact
+
+**Alberto Peña**
+- GitHub: [@albertopg03](https://github.com/albertopg03)
+- Repository: [Scriptvana](https://github.com/albertopg03/Scriptvana)
+
+---
+
+<p align="center">
+  Made with ❤️ for the Unity community
+</p>
+
+<p align="center">
+  <i>If you find this tool useful, consider giving it a ⭐ on GitHub!</i>
+</p>
