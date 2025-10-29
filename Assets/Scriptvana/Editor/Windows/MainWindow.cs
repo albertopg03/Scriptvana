@@ -46,6 +46,8 @@ namespace Scriptvana.Editor.Windows
             ShowWindow(typeof(MainWindow), "Scriptvana", new Vector2(800, 350), new Vector2(1200, 350));
 
 
+        // =========== EVENTOS
+
         /// <summary>
         /// Genera y bindea todos los elementos de la vista con lo creado desde el UI Toolkit.
         /// </summary>
@@ -81,6 +83,107 @@ namespace Scriptvana.Editor.Windows
             _scriptTypeField.choices = new List<string>(Enum.GetNames(typeof(ScriptType)));
             _scriptTypeField.index = (int)ScriptType.MonoBehaviour;
         }
+
+        /// <summary>
+        /// Evento que ejecuta una lógica tras pulsar el botón para navegar entre rutas.
+        /// </summary>
+        private void OnBrowse()
+        {
+            PathSelectorEditor pathSelector = new PathSelectorEditor();
+            _pathTextField.value = pathSelector.SelectPath(_pathTextField.value);
+        }
+
+        /// <summary>
+        /// Evento para poder añadir un script nuevo a la lista temporal
+        /// </summary>
+        private void OnAdd()
+        {
+            ScriptType scriptTypeSelected = (ScriptType)Enum.Parse(typeof(ScriptType), _scriptTypeField.value);
+
+            // si no hay un script seleccionado previamente...
+            if (_selectedScript != null)
+            {
+                // Comparar si hubo cambios
+                bool hasChanges =
+                    _selectedScript.Name != _scriptNameField.value ||
+                    _selectedScript.Type != scriptTypeSelected ||
+                    _selectedScript.Path != _pathTextField.value ||
+                    _selectedScript.NSpace != _nameSpaceField.value;
+
+                if (hasChanges)
+                {
+                    var editionTmpScript = new ScriptDefinition(
+                        _selectedScript.Id,
+                        _scriptNameField.value,
+                        scriptTypeSelected,
+                        _nameSpaceField.value,
+                        _pathTextField.value
+                    );
+
+                    if (!Validation(editionTmpScript, true)) return;
+
+                    // Actualizar script existente
+                    _selectedScript.Name = _scriptNameField.value;
+                    _selectedScript.Type = scriptTypeSelected;
+                    _selectedScript.Path = _pathTextField.value;
+                    _selectedScript.NSpace = _nameSpaceField.value;
+                }
+            }
+            else
+            {
+                // Crear nuevo script
+                var newScript = new ScriptDefinition(
+                    _indexScript,
+                    _scriptNameField.value,
+                    scriptTypeSelected,
+                    _nameSpaceField.value,
+                    _pathTextField.value
+                );
+
+                if (!Validation(newScript)) return;
+
+                _scriptList.Add(_indexScript, newScript);
+                _indexScript++;
+            }
+
+            // Refrescar UI
+            _scriptListView.itemsSource = _scriptList.Values.ToList();
+            _scriptListView.Rebuild();
+
+            // Limpiar selección para evitar confusiones
+            _scriptListView.selectedIndex = -1;
+            _selectedScript = null;
+
+            // limpiar formulario
+            ClearForm();
+        }
+
+        /// <summary>
+        /// Evento que se ejecuta al pulsar el botón de generar los scripts.
+        /// </summary>
+        private void OnGenerate()
+        {
+            ScriptGeneratorService generator = new ScriptGeneratorService();
+            generator.CreateFiles(_scriptList);
+        }
+
+        /// <summary>
+        /// Permite salir del modo edición. Este modo facilita el mantener el mismo flujo de trabajo con el formulario,
+        /// pero que al darle al botón de añadir script, en lugar de agregar un script diferente a la lista, modifica
+        /// el script seleccionado.
+        /// Este evento permite salir de ese modo para que el usuario pueda crear sin conflicto alguno un nuevo script.
+        /// </summary>
+        private void OnExitEditorMode()
+        {
+            _scriptListView.ClearSelection();
+            _selectedScript = null;
+            _exitEditorModeButton.SetEnabled(false);
+            _saveButton.text = "Add Script";
+
+            ClearForm();
+        }
+
+        // =========== Funcionalidades
 
         /// <summary>
         /// Inicializa de forma dinámica desde código la lista de scripts, ya que al haber un número dinámico
@@ -179,80 +282,6 @@ namespace Scriptvana.Editor.Windows
         }
 
         /// <summary>
-        /// Evento que ejecuta una lógica tras pulsar el botón para navegar entre rutas.
-        /// </summary>
-        private void OnBrowse()
-        {
-            PathSelectorEditor pathSelector = new PathSelectorEditor();
-            _pathTextField.value = pathSelector.SelectPath(_pathTextField.value);
-        }
-
-        /// <summary>
-        /// Evento para poder añadir un script nuevo a la lista temporal
-        /// </summary>
-        private void OnAdd()
-        {
-            ScriptType scriptTypeSelected = (ScriptType)Enum.Parse(typeof(ScriptType), _scriptTypeField.value);
-
-            // si no hay un script seleccionado previamente...
-            if (_selectedScript != null)
-            {
-                // Comparar si hubo cambios
-                bool hasChanges =
-                    _selectedScript.Name != _scriptNameField.value ||
-                    _selectedScript.Type != scriptTypeSelected ||
-                    _selectedScript.Path != _pathTextField.value ||
-                    _selectedScript.NSpace != _nameSpaceField.value;
-
-                if (hasChanges)
-                {
-                    var editionTmpScript = new ScriptDefinition(
-                        _selectedScript.Id,
-                        _scriptNameField.value,
-                        scriptTypeSelected,
-                        _nameSpaceField.value,
-                        _pathTextField.value
-                    );
-
-                    if (!Validation(editionTmpScript, true)) return;
-
-                    // Actualizar script existente
-                    _selectedScript.Name = _scriptNameField.value;
-                    _selectedScript.Type = scriptTypeSelected;
-                    _selectedScript.Path = _pathTextField.value;
-                    _selectedScript.NSpace = _nameSpaceField.value;
-                }
-            }
-            else
-            {
-                // Crear nuevo script
-                var newScript = new ScriptDefinition(
-                    _indexScript,
-                    _scriptNameField.value,
-                    scriptTypeSelected,
-                    _nameSpaceField.value,
-                    _pathTextField.value
-                );
-
-                if (!Validation(newScript)) return;
-
-                _scriptList.Add(_indexScript, newScript);
-                _indexScript++;
-            }
-
-            // Refrescar UI
-            _scriptListView.itemsSource = _scriptList.Values.ToList();
-            _scriptListView.Rebuild();
-
-            // Limpiar selección para evitar confusiones
-            _scriptListView.selectedIndex = -1;
-            _selectedScript = null;
-
-            // limpiar formulario
-            ClearForm();
-        }
-
-        /// <summary>
         /// Función que hace de puente con los servicios de validación necesarios para mantener una coherencia
         /// y evitar posibles errores a la hora de crear los scripts.
         /// </summary>
@@ -291,15 +320,6 @@ namespace Scriptvana.Editor.Windows
         }
 
         /// <summary>
-        /// Evento que se ejecuta al pulsar el botón de generar los scripts.
-        /// </summary>
-        private void OnGenerate()
-        {
-            ScriptGeneratorService generator = new ScriptGeneratorService();
-            generator.CreateFiles(_scriptList);
-        }
-
-        /// <summary>
         /// Limpia/resetea el formulario
         /// </summary>
         private void ClearForm()
@@ -308,22 +328,6 @@ namespace Scriptvana.Editor.Windows
             _nameSpaceField.value = "";
             _pathTextField.value = RoutePersistence.DefaultPath;
             _scriptTypeField.value = _scriptTypeField.choices.FirstOrDefault();
-        }
-
-        /// <summary>
-        /// Permite salir del modo edición. Este modo facilita el mantener el mismo flujo de trabajo con el formulario,
-        /// pero que al darle al botón de añadir script, en lugar de agregar un script diferente a la lista, modifica
-        /// el script seleccionado.
-        /// Este evento permite salir de ese modo para que el usuario pueda crear sin conflicto alguno un nuevo script.
-        /// </summary>
-        private void OnExitEditorMode()
-        {
-            _scriptListView.ClearSelection();
-            _selectedScript = null;
-            _exitEditorModeButton.SetEnabled(false);
-            _saveButton.text = "Add Script";
-
-            ClearForm();
         }
     }
 }
