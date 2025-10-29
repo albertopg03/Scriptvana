@@ -31,9 +31,9 @@ Scriptvana is a powerful Unity Editor extension that streamlines the script crea
 2. Click the `+` button in the top-left corner
 3. Select `Add package from git URL...`
 4. Paste the following URL:
-   ```
+```
    https://github.com/albertopg03/Scriptvana.git?path=/Assets/Scriptvana
-   ```
+```
 5. Click `Add`
 
 ### Manual Installation
@@ -124,10 +124,10 @@ Open `Tools > Scriptvana > Settings` to configure:
 
 | Setting | Description | Default |
 |---------|-------------|---------|
-| Min Characters | Minimum script name length | 3 |
-| Naming Convention | Enforce PascalCase naming | Enabled |
-| Manually Editable Path | Allow typing paths directly | Disabled |
-| Default Path | Starting directory for new scripts | Assets/Scripts |
+| **Min Characters** | Minimum script name length | `3` |
+| **Naming Convention** | Enforce PascalCase naming | `Enabled` |
+| **Manually Editable Path** | Allow typing paths directly | `Disabled` |
+| **Default Path** | Starting directory for new scripts | `Assets/Scripts` |
 
 Settings are automatically saved using Unity's EditorPrefs.
 
@@ -161,7 +161,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📝 Changelog
 
-
+| Version | Date | Notes |
+|---------|------|-------|
+| 1.2.0 | 2025-10-28 | Git URL import fix + Resource system refactor + Assembly Definition |
+| 1.1.0 | 2025-10-28 | Custom configuration window for tool settings |
+| 1.0.1 | 2025-10-23 | Fixed Unity security issue |
+| 1.0.0 | 2025-05-26 | Initial beta release |
 
 ---
 
