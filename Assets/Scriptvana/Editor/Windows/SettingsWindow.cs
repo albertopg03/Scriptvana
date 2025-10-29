@@ -5,6 +5,7 @@ using Scriptvana.Editor.Persistence;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Scriptvana.Editor.Windows.Helpers;
 
 namespace Scriptvana.Editor.Windows
 {
@@ -38,12 +39,7 @@ namespace Scriptvana.Editor.Windows
 
             PopulateSavedSettingsData();
 
-            // Usar IconData singleton
-            var iconData = IconData.Instance;
-            if (iconData != null)
-            {
-                AddCenteredIconToButton(_browseButton, iconData.iconFolder, new Vector2(20, 20));
-            }
+            EditorIconHelper.AddCenteredIconToButton(_browseButton, IconData.Instance.iconFolder, new Vector2(20, 20));
         }
 
         private void OnBrowse()
@@ -68,20 +64,6 @@ namespace Scriptvana.Editor.Windows
             _namingConvertionField.value = NormalizeNamePersistence.UseNormalizeName;
             _manuallyEdiablePathField.value = RoutePersistence.ManualEditablePath;
             _defaultPathField.value = RoutePersistence.DefaultPath;
-        }
-
-        private void AddCenteredIconToButton(Button button, Texture2D texture, Vector2 size)
-        {
-            button.style.flexDirection = FlexDirection.Row;
-            button.style.justifyContent = Justify.Center;
-            button.style.alignItems = Align.Center;
-
-            var icon = new VisualElement();
-            icon.style.backgroundImage = new StyleBackground(texture);
-            icon.style.width = size.x;
-            icon.style.height = size.y;
-
-            button.Add(icon);
         }
     }
 }

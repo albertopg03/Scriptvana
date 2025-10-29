@@ -2,6 +2,7 @@ using Scriptvana.Editor.Models;
 using Scriptvana.Editor.Persistence;
 using Scriptvana.Editor.Services;
 using Scriptvana.Editor.Windows.Base;
+using Scriptvana.Editor.Windows.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,12 +75,7 @@ namespace Scriptvana.Editor.Windows
             _exitEditorModeButton.clicked += OnExitEditorMode;
             _pathTextField.value = RoutePersistence.DefaultPath;
 
-            // ⭐ CAMBIA ESTA PARTE - Usar IconData singleton
-            var iconData = IconData.Instance;
-            if (iconData != null)
-            {
-                AddCenteredIconToButton(_browseButton, iconData.iconFolder, new Vector2(20, 20));
-            }
+            EditorIconHelper.AddCenteredIconToButton(_browseButton, IconData.Instance.iconFolder, new Vector2(20, 20));
 
             // valores del dropdown
             _scriptTypeField.choices = new List<string>(Enum.GetNames(typeof(ScriptType)));
@@ -116,12 +112,7 @@ namespace Scriptvana.Editor.Windows
                 // crea el botón para eliminar dicho elemento de la lista
                 Button deleteOptionBtn = new Button();
 
-                // ⭐ CAMBIA ESTA PARTE - Usar IconData singleton
-                var iconData = IconData.Instance;
-                if (iconData != null)
-                {
-                    AddCenteredIconToButton(deleteOptionBtn, iconData.iconClose, new Vector2(16, 16));
-                }
+                EditorIconHelper.AddCenteredIconToButton(_browseButton, IconData.Instance.iconFolder, new Vector2(16, 16));
 
                 // estiliza el  botón de borrado
                 deleteOptionBtn.name = "deleteButton";
@@ -173,28 +164,6 @@ namespace Scriptvana.Editor.Windows
                     RefreshForm(_selectedScript);
                 }
             };
-        }
-
-        /// <summary>
-        /// Función auxiliar que permite añadir un icono a un botón. Esto se ha creado para dar soporte
-        /// a los iconos para versiones inferiores al Unity 6, ya que solo en esta versión en adelante,
-        /// contamos con el atributo itemImage. En anteriores versiones, da error.
-        /// </summary>
-        /// <param name="button"></param>
-        /// <param name="texture"></param>
-        /// <param name="size"></param>
-        private void AddCenteredIconToButton(Button button, Texture2D texture, Vector2 size)
-        {
-            button.style.flexDirection = FlexDirection.Row;
-            button.style.justifyContent = Justify.Center;
-            button.style.alignItems = Align.Center;
-
-            var icon = new VisualElement();
-            icon.style.backgroundImage = new StyleBackground(texture);
-            icon.style.width = size.x;
-            icon.style.height = size.y;
-
-            button.Add(icon);
         }
 
         /// <summary>
@@ -329,7 +298,6 @@ namespace Scriptvana.Editor.Windows
             ScriptGeneratorService generator = new ScriptGeneratorService();
             generator.CreateFiles(_scriptList);
         }
-
 
         /// <summary>
         /// Limpia/resetea el formulario
