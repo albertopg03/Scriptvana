@@ -77,6 +77,7 @@ namespace Scriptvana.Editor.Windows
             _exitEditorModeButton.clicked += OnExitEditorMode;
             _pathTextField.value = RoutePersistence.DefaultPath;
 
+            _createButton.SetEnabled(false);
             EditorIconHelper.AddCenteredIconToButton(_browseButton, IconData.Instance.iconFolder, new Vector2(20, 20));
 
             // valores del dropdown

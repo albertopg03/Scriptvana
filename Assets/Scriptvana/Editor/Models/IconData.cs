@@ -25,7 +25,7 @@ namespace Scriptvana.Editor.Models
                     _instance = Resources.Load<IconData>("Icons/IconData");
                     if (_instance == null)
                     {
-                        Debug.LogError("No se encontró IconData en Resources/Icons/");
+                        Debug.LogError("[SCRIPTVANA]: No se encontró IconData en Resources/Icons/");
                     }
                 }
                 return _instance;

@@ -55,7 +55,7 @@ namespace Scriptvana.Editor.Windows
             RoutePersistence.ManualEditablePath = _manuallyEdiablePathField.value;
             RoutePersistence.DefaultPath = _defaultPathField.value;
 
-            Debug.Log("Ajustes guardados correctamente");
+            Debug.Log("[SCRIPTVANA]: Ajustes guardados correctamente");
         }
 
         private void PopulateSavedSettingsData()

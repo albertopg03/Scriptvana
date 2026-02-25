@@ -31,7 +31,7 @@ namespace Scriptvana.Editor.Services
 
             if (string.IsNullOrEmpty(resourcePath))
             {
-                Debug.LogError($"No se encontró la ruta para el tipo de script: {type}");
+                Debug.LogError($"[SCRIPTVANA]: No se encontró la ruta para el tipo de script: {type}");
                 return null;
             }
 
@@ -39,7 +39,7 @@ namespace Scriptvana.Editor.Services
 
             if (templateAsset == null)
             {
-                Debug.LogError($"No se pudo cargar la plantilla desde Resources: {resourcePath}");
+                Debug.LogError($"[SCRIPTVANA]: No se pudo cargar la plantilla desde Resources: {resourcePath}");
                 return null;
             }
 
@@ -56,7 +56,7 @@ namespace Scriptvana.Editor.Services
 
             if (importAsset == null)
             {
-                Debug.LogWarning("No se encontró la plantilla de imports en Resources/Templates/Imports/BasicImports");
+                Debug.LogWarning("[SCRIPTVANA]: No se encontró la plantilla de imports en Resources/Templates/Imports/BasicImports");
                 return string.Empty;
             }
 

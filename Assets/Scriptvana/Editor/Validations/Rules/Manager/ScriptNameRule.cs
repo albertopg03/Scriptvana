@@ -29,7 +29,7 @@ namespace Scriptvana.Editor.Validations.Rules
             // recomendado para este tipo de casos que empezarlo por minúscula.
             if (char.IsLower(script.Name[0]))
             {
-                Debug.LogWarning("Recomendación: Usa PascalCase (primera letra mayúscula)");
+                Debug.LogWarning("[SCRIPTVANA]: Recomendación -> Usa PascalCase (primera letra mayúscula)");
                 return ValidationResult.Invalid("Recomendación: Usa PascalCase (primera letra mayúscula)", 
                     ValidationSeverity.Warning,
                     true

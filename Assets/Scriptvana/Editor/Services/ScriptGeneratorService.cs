@@ -35,7 +35,7 @@ namespace Scriptvana.Editor.Services
             // si se ha indicado una ruta y no existe ya previamente...
             if (directoryPath != null && !Directory.Exists(directoryPath))
             {
-                Debug.Log($"<color=orange>Scriptvana:</color> Creando directorio: {directoryPath}");
+                Debug.Log($"<color=orange>[SCRIPTVANA]:</color> Creando directorio: {directoryPath}");
                 Directory.CreateDirectory(directoryPath);
             }
 
@@ -47,7 +47,7 @@ namespace Scriptvana.Editor.Services
 
                 if (string.IsNullOrEmpty(scriptContent))
                 {
-                    Debug.LogError($"No se pudo cargar la plantilla para el tipo: {scriptType}");
+                    Debug.LogError($"[SCRIPTVANA]:No se pudo cargar la plantilla para el tipo: {scriptType}");
                     return false;
                 }
 
@@ -70,7 +70,7 @@ namespace Scriptvana.Editor.Services
                 if (Exists(fullPathInAssets))
                 {
                     Debug.LogWarning(
-                        $"<color=yellow>Scriptvana:</color> El script '{scriptName}.cs' ya existe en '{fullPathInAssets}'.");
+                        $"<color=yellow>[SCRIPTVANA]:</color> El script '{scriptName}.cs' ya existe en '{fullPathInAssets}'.");
                     EditorUtility.DisplayDialog("Advertencia",
                         $"El script '{scriptName}.cs' ya existe en:\n{fullPathInAssets}", "Aceptar");
                     return false;
@@ -83,7 +83,7 @@ namespace Scriptvana.Editor.Services
                 if (autoReload)
                 {
                     Debug.Log(
-                        $"<color=green>Scriptvana:</color> Script generado en <color=cyan>{fullPathInAssets}</color>");
+                        $"<color=green>[SCRIPTVANA]:</color> Script generado en <color=cyan>{fullPathInAssets}</color>");
                     AssetDatabase.Refresh();
 
                     Object asset = AssetDatabase.LoadAssetAtPath<Object>(fullPathInAssets);
@@ -98,7 +98,7 @@ namespace Scriptvana.Editor.Services
             }
             catch (Exception e)
             {
-                Debug.LogError($"<color=red>Scriptvana Error:</color> Error creando '{scriptName}.cs': {e.Message}");
+                Debug.LogError($"<color=red>[SCRIPTVANA]:</color> Error creando '{scriptName}.cs': {e.Message}");
                 EditorUtility.DisplayDialog("Error de Generación",
                     $"No se pudo crear el script {scriptName}.cs.\nRuta: {fullPathInAssets}\nError: {e.Message}",
                     "Aceptar");

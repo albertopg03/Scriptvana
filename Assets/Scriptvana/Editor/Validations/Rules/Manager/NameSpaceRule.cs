@@ -57,7 +57,7 @@ namespace Scriptvana.Editor.Validations.Rules
             // Recomendación de estilo (como advertencia)
             if (char.IsLower(script.NSpace[0]))
             {
-                Debug.LogWarning("Recomendación: Usa PascalCase para namespaces (primera letra mayúscula)");
+                Debug.LogWarning("[SCRIPTVANA]: Recomendación -> Usa PascalCase para namespaces (primera letra mayúscula)");
                 
                 return ValidationResult.Invalid(
                     "Recomendación: Usa PascalCase para namespaces (primera letra mayúscula)",
