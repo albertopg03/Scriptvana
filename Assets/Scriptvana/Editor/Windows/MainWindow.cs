@@ -216,7 +216,7 @@ namespace Scriptvana.Editor.Windows
                 // crea el botón para eliminar dicho elemento de la lista
                 Button deleteOptionBtn = new Button();
 
-                EditorIconHelper.AddCenteredIconToButton(_browseButton, IconData.Instance.iconFolder, new Vector2(16, 16));
+                EditorIconHelper.AddCenteredIconToButton(deleteOptionBtn, IconData.Instance.iconClose, new Vector2(16, 16));
 
                 // estiliza el  botón de borrado
                 deleteOptionBtn.name = "deleteButton";
