@@ -6,7 +6,7 @@ Scriptvana is a powerful Unity Editor extension that streamlines the script crea
 
 [![Unity Version](https://img.shields.io/badge/Unity-2021.3%2B-black.svg)](https://unity.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.2.2-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.3.0-green.svg)](CHANGELOG.md)
 
 ---
 
@@ -163,7 +163,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 | Version | Date | Notes |
 |---------|------|-------|
-| 1.2.2 | 2026-02-27 | Unity 6.3 support + minor fixes |
+| 1.3.0 | 2026-02-27 | Unity 6.3 support + minor fixes |
 | 1.2.1 | 2026-02-25 | Some code refactoring and visual window fixes |
 | 1.2.0 | 2025-10-28 | Git URL import fix + Resource system refactor + Assembly Definition |
 | 1.1.0 | 2025-10-28 | Custom configuration window for tool settings |
