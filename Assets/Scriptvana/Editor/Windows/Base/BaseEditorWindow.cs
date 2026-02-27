@@ -10,7 +10,7 @@ namespace Scriptvana.Editor.Windows.Base
         /// <summary>
         /// Visual Tree que se cargará para la ventana
         /// </summary>
-        [SerializeField] protected abstract VisualTreeAsset VisualTree { get; }
+        protected abstract VisualTreeAsset VisualTree { get; }
 
         /// <summary>
         /// Crea y muestra la ventana.

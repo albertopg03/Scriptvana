@@ -11,8 +11,10 @@ namespace Scriptvana.Editor.Windows
 {
     public class SettingsWindow : BaseEditorWindow<SettingsWindow>
     {
-        [SerializeField] private VisualTreeAsset _visualTree;
+        [SerializeField]
+        private VisualTreeAsset _visualTree;
         protected override VisualTreeAsset VisualTree => _visualTree;
+
 
         private IntegerField _minCharactersField;
         private Toggle _namingConvertionField;

@@ -20,7 +20,8 @@ namespace Scriptvana.Editor.Windows
     /// </summary>
     public class MainWindow : BaseEditorWindow<MainWindow>
     {
-        [SerializeField] private VisualTreeAsset _visualTree;
+        [SerializeField]
+        private VisualTreeAsset _visualTree;
         protected override VisualTreeAsset VisualTree => _visualTree;
 
         // campos del formulario
@@ -151,6 +152,9 @@ namespace Scriptvana.Editor.Windows
             _scriptListView.itemsSource = _scriptList.Values.ToList();
             _scriptListView.Rebuild();
 
+            // habilitar dinámicamente el botón de crear 
+            _createButton.SetEnabled(_scriptList.Count > 0);
+
             // Limpiar selección para evitar confusiones
             _scriptListView.selectedIndex = -1;
             _selectedScript = null;
@@ -251,6 +255,8 @@ namespace Scriptvana.Editor.Windows
                         InitScriptListView();
                         OnExitEditorMode();
                         _scriptListView.Rebuild();
+
+                        _createButton.SetEnabled(_scriptList.Count > 0);
                     }
                 };
             };
