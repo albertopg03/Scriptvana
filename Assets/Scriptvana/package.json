@@ -1,10 +1,10 @@
 {
   "name": "com.albertopg03.scriptvana",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "displayName": "Scriptvana",
   "description": "Agile and massive management tool for creating scripts in Unity. Simplify your workflow with customizable templates, batch script generation, and smart validations.",
-  "unity": "6000.0",
-  "unityRelease": "2f1",
+  "unity": "6000.3",
+  "unityRelease": "0f1",
   "keywords": [
     "tool",
     "editor",
