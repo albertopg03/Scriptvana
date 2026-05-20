@@ -46,5 +46,11 @@
     border-bottom-left-radius: 10px;
 }
 
+.formStatusLabel {
+    margin-top: 4px;
+    color: rgb(251, 126, 32);
+    -unity-font-style: bold;
+}
+
 .titleContainer {
 }

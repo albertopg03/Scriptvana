@@ -9,23 +9,26 @@
             <engine:IMGUIContainer name="IMGUIContainer" class="container" style="width: 60%; height: 100%;">
                 <engine:Label text="Settings" class="titleContainer" style="-unity-text-outline-width: 0;"/>
                 <engine:VisualElement name="FormSection" style="flex-grow: 1; width: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(255, 255, 255);">
+                    <engine:Label text="Creating a new script" name="editStatusLabel" class="formStatusLabel"/>
                     <engine:TextField label="Script name*" placeholder-text="name" hide-placeholder-on-focus="false" readonly="false" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="scriptNameField" class="input" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; right: auto; -unity-text-align: upper-left; white-space: normal; text-overflow: clip; background-color: rgba(0, 0, 0, 0);">
                         <engine:Label text=".cs"/>
                     </engine:TextField>
                     <engine:DropdownField label="Type*" name="typeScriptField" class="input"/>
                     <engine:TextField label="Name Space" placeholder-text="name space" hide-placeholder-on-focus="false" readonly="false" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="nameSpaceField" class="input" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center;"/>
-                    <engine:IMGUIContainer style="flex-direction: row; width: 100%; justify-content: flex-start; align-self: auto; align-items: center;">
+                    <engine:IMGUIContainer style="flex-direction: row; width: 100%; justify-content: flex-start; align-self: auto; align-items: flex-end;">
                         <engine:TextField label="Script path*" placeholder-text="name" hide-placeholder-on-focus="false" readonly="true" is-delayed="false" language-direction="Inherit" enabled="true" password="false" name="pathTextField" class="input" style="justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; right: auto; width: 85%;"/>
-                        <engine:Button name="browseButton" display-tooltip-when-elided="true" style="width: 12%; font-size: 14px; height: auto;"/>
+                        <engine:Button name="browseButton" display-tooltip-when-elided="true" style="width: 12%; font-size: 14px; height: 22px;"/>
                     </engine:IMGUIContainer>
-                    <engine:Button text="Add Script" name="saveFormButton" class="button" style="margin-top: 16px; font-size: 14px;"/>
+                    <engine:VisualElement style="flex-direction: row; margin-top: 16px;">
+                        <engine:Button text="Add Script" name="saveFormButton" class="button" style="font-size: 14px; flex-grow: 1; margin-right: 8px;"/>
+                        <engine:Button text="New Script" name="newScriptButton" class="button" style="font-size: 14px; width: 120px;"/>
+                    </engine:VisualElement>
                 </engine:VisualElement>
             </engine:IMGUIContainer>
             <engine:IMGUIContainer class="container" style="width: 40%; height: 100%;">
                 <engine:Label text="Script List" class="titleContainer"/>
                 <engine:VisualElement name="ResultSection" style="flex-grow: 1; width: 100%; height: 143px;">
                     <engine:ListView name="ScriptListView" allow-remove="false" class="truncateText" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 14px; text-overflow: ellipsis;"/>
-                    <engine:Button text="Exit editor mode" name="exitEditorModeButton" class="button" style="font-size: 14px; margin-top: 8px;"/>
                 </engine:VisualElement>
             </engine:IMGUIContainer>
         </engine:IMGUIContainer>

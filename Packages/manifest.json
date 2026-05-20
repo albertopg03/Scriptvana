@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.albertopg03.scriptvana": "https://github.com/albertopg03/Scriptvana.git?path=/Assets/Scriptvana",
     "com.unity.collab-proxy": "2.11.3",
     "com.unity.feature.2d": "2.0.2",
     "com.unity.ide.visualstudio": "2.0.26",

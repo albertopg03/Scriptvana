@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.albertopg03.scriptvana": {
+      "version": "https://github.com/albertopg03/Scriptvana.git?path=/Assets/Scriptvana",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "4e2952989c0c42d675b640f4c174647cec502c94"
+    },
     "com.unity.2d.animation": {
       "version": "13.0.4",
       "depth": 1,

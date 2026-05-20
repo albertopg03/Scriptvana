@@ -29,10 +29,11 @@ namespace Scriptvana.Editor.Windows
         private DropdownField _scriptTypeField;
         private TextField _nameSpaceField;
         private TextField _pathTextField;
+        private Label _editStatusLabel;
         private Button _browseButton;
         private Button _saveButton;
+        private Button _newScriptButton;
         private Button _createButton;
-        private Button _exitEditorModeButton;
 
         // vista del listado de scripts agregados temporalmente, previo a su generación.
         private ListView _scriptListView;
@@ -59,23 +60,23 @@ namespace Scriptvana.Editor.Windows
             _scriptTypeField = layout.Q<DropdownField>("typeScriptField");
             _nameSpaceField = layout.Q<TextField>("nameSpaceField");
             _pathTextField = layout.Q<TextField>("pathTextField");
+            _editStatusLabel = layout.Q<Label>("editStatusLabel");
             _browseButton = layout.Q<Button>("browseButton");
             _saveButton = layout.Q<Button>("saveFormButton");
+            _newScriptButton = layout.Q<Button>("newScriptButton");
             _createButton = layout.Q<Button>("createScriptButton");
-            _exitEditorModeButton = layout.Q<Button>("exitEditorModeButton");
 
             _scriptListView = layout.Q<ListView>("ScriptListView");
             InitScriptListView();
 
             // modificaciones individuales para ciertos campos
-            _exitEditorModeButton.SetEnabled(false);
             _pathTextField.isReadOnly = !RoutePersistence.ManualEditablePath;
 
             // suscribe a los botones con ciertas funciones
             _browseButton.clicked += OnBrowse;
             _saveButton.clicked += OnAdd;
+            _newScriptButton.clicked += OnStartNewScript;
             _createButton.clicked += OnGenerate;
-            _exitEditorModeButton.clicked += OnExitEditorMode;
             _pathTextField.value = RoutePersistence.DefaultPath;
 
             _createButton.SetEnabled(false);
@@ -84,6 +85,7 @@ namespace Scriptvana.Editor.Windows
             // valores del dropdown
             _scriptTypeField.choices = new List<string>(Enum.GetNames(typeof(ScriptType)));
             _scriptTypeField.index = (int)ScriptType.MonoBehaviour;
+            RefreshEditionUI();
         }
 
         /// <summary>
@@ -156,11 +158,7 @@ namespace Scriptvana.Editor.Windows
             _createButton.SetEnabled(_scriptList.Count > 0);
 
             // Limpiar selección para evitar confusiones
-            _scriptListView.selectedIndex = -1;
-            _selectedScript = null;
-
-            // limpiar formulario
-            ClearForm();
+            ExitEditMode();
         }
 
         /// <summary>
@@ -178,13 +176,19 @@ namespace Scriptvana.Editor.Windows
         /// el script seleccionado.
         /// Este evento permite salir de ese modo para que el usuario pueda crear sin conflicto alguno un nuevo script.
         /// </summary>
-        private void OnExitEditorMode()
+        private void OnStartNewScript()
+        {
+            ExitEditMode();
+        }
+
+        /// <summary>
+        /// Permite salir del modo ediciÃ³n y volver al flujo de creaciÃ³n de un script nuevo.
+        /// </summary>
+        private void ExitEditMode()
         {
             _scriptListView.ClearSelection();
             _selectedScript = null;
-            _exitEditorModeButton.SetEnabled(false);
-            _saveButton.text = "Add Script";
-
+            RefreshEditionUI();
             ClearForm();
         }
 
@@ -252,8 +256,8 @@ namespace Scriptvana.Editor.Windows
                     var keyToRemove = _scriptList.FirstOrDefault(x => x.Value == dataScript).Key;
                     if (_scriptList.Remove(keyToRemove))
                     {
-                        InitScriptListView();
-                        OnExitEditorMode();
+                        _scriptListView.itemsSource = _scriptList.Values.ToList();
+                        ExitEditMode();
                         _scriptListView.Rebuild();
 
                         _createButton.SetEnabled(_scriptList.Count > 0);
@@ -269,10 +273,14 @@ namespace Scriptvana.Editor.Windows
                 _selectedScript = selected.FirstOrDefault() as ScriptDefinition;
                 if (_selectedScript != null)
                 {
-                    _exitEditorModeButton.SetEnabled(true);
-                    _saveButton.text = "Apply Changes";
                     RefreshForm(_selectedScript);
                 }
+                else
+                {
+                    ClearForm();
+                }
+
+                RefreshEditionUI();
             };
         }
 
@@ -286,6 +294,21 @@ namespace Scriptvana.Editor.Windows
             _pathTextField.value = scriptSelected.Path;
             _scriptTypeField.value = scriptSelected.Type.ToString();
             _nameSpaceField.value = scriptSelected.NSpace;
+        }
+
+        /// <summary>
+        /// Sincroniza el estado visual del formulario segÃºn si el usuario estÃ¡ creando o editando.
+        /// </summary>
+        private void RefreshEditionUI()
+        {
+            bool isEditing = _selectedScript != null;
+
+            _saveButton.text = isEditing ? "Apply Changes" : "Add Script";
+            _newScriptButton.style.display = isEditing ? DisplayStyle.Flex : DisplayStyle.None;
+            _newScriptButton.SetEnabled(isEditing);
+            _editStatusLabel.text = isEditing
+                ? $"Editing {_selectedScript.Name}.cs"
+                : "Creating a new script";
         }
 
         /// <summary>
