@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Scriptvana.Editor.Models;
+using Scriptvana.Editor.Persistence;
 using UnityEngine;
 
 namespace Scriptvana.Editor.Services
@@ -60,7 +61,21 @@ namespace Scriptvana.Editor.Services
                 return string.Empty;
             }
 
-            return importAsset.text;
+            List<string> imports = importAsset.text
+                .Replace("\r\n", "\n")
+                .Split('\n')
+                .Where(line => !string.IsNullOrWhiteSpace(line))
+                .Select(line => line.Trim())
+                .ToList();
+
+            imports.AddRange(
+                TemplateDefaultsPersistence.AdditionalImports
+                    .Replace("\r\n", "\n")
+                    .Split('\n')
+                    .Where(line => !string.IsNullOrWhiteSpace(line))
+                    .Select(line => line.Trim()));
+
+            return string.Join("\n", imports.Distinct());
         }
     }
 }

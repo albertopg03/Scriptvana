@@ -50,8 +50,9 @@ namespace Scriptvana.Editor.Services
             {
                 new ScriptNameRule(),
                 new NameSpaceRule(),
+                new PathConfigurationRule(),
                 new LimitCharactersNameRule(),
-                new NamingConventionRule(NormalizeNamePersistence.UseNormalizeName)
+                new NamingConventionRule(NormalizeNamePersistence.NormalizationMode)
             };
 
             foreach (var validator in validators)

@@ -41,6 +41,7 @@ namespace Scriptvana.Editor.Windows
         // lista de scripts
         private int _indexScript;
         private ScriptDefinition _selectedScript;
+        private string _lastAutoNamespace = string.Empty;
         private Dictionary<int, ScriptDefinition> _scriptList = new();
 
         [MenuItem("Tools/Scriptvana/Manager")]
@@ -77,7 +78,6 @@ namespace Scriptvana.Editor.Windows
             _saveButton.clicked += OnAdd;
             _newScriptButton.clicked += OnStartNewScript;
             _createButton.clicked += OnGenerate;
-            _pathTextField.value = RoutePersistence.DefaultPath;
 
             _createButton.SetEnabled(false);
             EditorIconHelper.AddCenteredIconToButton(_browseButton, IconData.Instance.iconFolder, new Vector2(20, 20));
@@ -85,6 +85,7 @@ namespace Scriptvana.Editor.Windows
             // valores del dropdown
             _scriptTypeField.choices = new List<string>(Enum.GetNames(typeof(ScriptType)));
             _scriptTypeField.index = (int)ScriptType.MonoBehaviour;
+            ApplyDefaultFormValues();
             RefreshEditionUI();
         }
 
@@ -94,7 +95,14 @@ namespace Scriptvana.Editor.Windows
         private void OnBrowse()
         {
             PathSelectorEditor pathSelector = new PathSelectorEditor();
-            _pathTextField.value = pathSelector.SelectPath(_pathTextField.value);
+            string previousPath = _pathTextField.value;
+            _pathTextField.value = ScriptConfigurationService.NormalizeFolderPath(
+                pathSelector.SelectPath(_pathTextField.value));
+
+            if (_selectedScript == null)
+            {
+                SyncNamespaceWithCurrentPath(previousPath);
+            }
         }
 
         /// <summary>
@@ -102,6 +110,14 @@ namespace Scriptvana.Editor.Windows
         /// </summary>
         private void OnAdd()
         {
+            string normalizedName = ScriptConfigurationService.NormalizeName(_scriptNameField.value);
+            string normalizedPath = ScriptConfigurationService.NormalizeFolderPath(_pathTextField.value);
+            string effectiveNamespace = ScriptConfigurationService.ResolveNamespace(_nameSpaceField.value, normalizedPath);
+
+            _scriptNameField.value = normalizedName;
+            _pathTextField.value = normalizedPath;
+            _nameSpaceField.value = effectiveNamespace;
+
             ScriptType scriptTypeSelected = (ScriptType)Enum.Parse(typeof(ScriptType), _scriptTypeField.value);
 
             // si no hay un script seleccionado previamente...
@@ -109,28 +125,28 @@ namespace Scriptvana.Editor.Windows
             {
                 // Comparar si hubo cambios
                 bool hasChanges =
-                    _selectedScript.Name != _scriptNameField.value ||
+                    _selectedScript.Name != normalizedName ||
                     _selectedScript.Type != scriptTypeSelected ||
-                    _selectedScript.Path != _pathTextField.value ||
-                    _selectedScript.NSpace != _nameSpaceField.value;
+                    _selectedScript.Path != normalizedPath ||
+                    _selectedScript.NSpace != effectiveNamespace;
 
                 if (hasChanges)
                 {
                     var editionTmpScript = new ScriptDefinition(
                         _selectedScript.Id,
-                        _scriptNameField.value,
+                        normalizedName,
                         scriptTypeSelected,
-                        _nameSpaceField.value,
-                        _pathTextField.value
+                        effectiveNamespace,
+                        normalizedPath
                     );
 
                     if (!Validation(editionTmpScript, true)) return;
 
                     // Actualizar script existente
-                    _selectedScript.Name = _scriptNameField.value;
+                    _selectedScript.Name = normalizedName;
                     _selectedScript.Type = scriptTypeSelected;
-                    _selectedScript.Path = _pathTextField.value;
-                    _selectedScript.NSpace = _nameSpaceField.value;
+                    _selectedScript.Path = normalizedPath;
+                    _selectedScript.NSpace = effectiveNamespace;
                 }
             }
             else
@@ -138,10 +154,10 @@ namespace Scriptvana.Editor.Windows
                 // Crear nuevo script
                 var newScript = new ScriptDefinition(
                     _indexScript,
-                    _scriptNameField.value,
+                    normalizedName,
                     scriptTypeSelected,
-                    _nameSpaceField.value,
-                    _pathTextField.value
+                    effectiveNamespace,
+                    normalizedPath
                 );
 
                 if (!Validation(newScript)) return;
@@ -167,7 +183,26 @@ namespace Scriptvana.Editor.Windows
         private void OnGenerate()
         {
             ScriptGeneratorService generator = new ScriptGeneratorService();
-            generator.CreateFiles(_scriptList);
+            List<string> generatedFiles = generator.CreateFiles(_scriptList);
+            if (generatedFiles.Count == 0)
+            {
+                return;
+            }
+
+            switch (GenerationPersistence.PostBehavior)
+            {
+                case PostGenerationBehavior.ClearFormOnly:
+                    ExitEditMode();
+                    break;
+
+                case PostGenerationBehavior.ClearListAndForm:
+                    _scriptList.Clear();
+                    _scriptListView.itemsSource = _scriptList.Values.ToList();
+                    _scriptListView.Rebuild();
+                    _createButton.SetEnabled(false);
+                    ExitEditMode();
+                    break;
+            }
         }
 
         /// <summary>
@@ -355,9 +390,32 @@ namespace Scriptvana.Editor.Windows
         private void ClearForm()
         {
             _scriptNameField.value = "";
-            _nameSpaceField.value = "";
-            _pathTextField.value = RoutePersistence.DefaultPath;
+            _pathTextField.value = ScriptConfigurationService.GetDefaultScriptPath();
             _scriptTypeField.value = _scriptTypeField.choices.FirstOrDefault();
+            _nameSpaceField.value = ScriptConfigurationService.GetDefaultNamespace(_pathTextField.value);
+            _lastAutoNamespace = _nameSpaceField.value;
+        }
+
+        private void ApplyDefaultFormValues()
+        {
+            ClearForm();
+        }
+
+        private void SyncNamespaceWithCurrentPath(string previousPath)
+        {
+            string previousAutoNamespace = ScriptConfigurationService.GetDefaultNamespace(previousPath);
+            bool shouldUpdateNamespace =
+                string.IsNullOrWhiteSpace(_nameSpaceField.value) ||
+                _nameSpaceField.value == previousAutoNamespace ||
+                _nameSpaceField.value == _lastAutoNamespace;
+
+            if (!shouldUpdateNamespace)
+            {
+                return;
+            }
+
+            _nameSpaceField.value = ScriptConfigurationService.GetDefaultNamespace(_pathTextField.value);
+            _lastAutoNamespace = _nameSpaceField.value;
         }
     }
 }

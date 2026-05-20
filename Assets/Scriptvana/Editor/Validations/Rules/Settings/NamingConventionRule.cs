@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Scriptvana.Editor.Models;
@@ -8,12 +8,7 @@ namespace Scriptvana.Editor.Validations.Rules.Settings
 {
     public class NamingConventionRule : IValidationRule
     {
-        private readonly bool _isEnabled;
-
-        public NamingConventionRule(bool isEnabled)
-        {
-            _isEnabled = isEnabled;
-        }
+        private readonly NameNormalizationMode _mode;
 
         private static readonly HashSet<string> CSharpKeywords = new(StringComparer.OrdinalIgnoreCase)
         {
@@ -26,10 +21,17 @@ namespace Scriptvana.Editor.Validations.Rules.Settings
             "unsafe","ushort","using","virtual","void","volatile","while"
         };
 
+        public NamingConventionRule(NameNormalizationMode mode)
+        {
+            _mode = mode;
+        }
+
         public ValidationResult Validate(ScriptDefinition script)
         {
-            if (!_isEnabled)
+            if (_mode == NameNormalizationMode.Disabled)
+            {
                 return ValidationResult.Valid;
+            }
 
             if (script == null)
             {
@@ -40,37 +42,34 @@ namespace Scriptvana.Editor.Validations.Rules.Settings
                 );
             }
 
-            var name = script.Name?.Trim() ?? string.Empty;
+            string name = script.Name?.Trim() ?? string.Empty;
             if (string.IsNullOrEmpty(name))
             {
                 return ValidationResult.Invalid(
-                    "El nombre del script está vacío.",
+                    "El nombre del script esta vacio.",
                     ValidationSeverity.Error,
                     false
                 );
             }
 
-            // Comprobar que no empieza por número
             if (char.IsDigit(name[0]))
             {
                 return ValidationResult.Invalid(
-                    "El nombre del script no puede comenzar con un número.",
+                    "El nombre del script no puede comenzar con un numero.",
                     ValidationSeverity.Error,
                     false
                 );
             }
 
-            // Comprobar que solo contiene caracteres válidos (letras, números o guion bajo)
             if (!Regex.IsMatch(name, @"^[A-Za-z_][A-Za-z0-9_]*$"))
             {
                 return ValidationResult.Invalid(
-                    "El nombre del script contiene caracteres no válidos. Solo se permiten letras, números y guion bajo.",
+                    "El nombre del script contiene caracteres no validos. Solo se permiten letras, numeros y guion bajo.",
                     ValidationSeverity.Error,
                     false
                 );
             }
 
-            // Comprobar si es palabra reservada
             if (CSharpKeywords.Contains(name))
             {
                 return ValidationResult.Invalid(
@@ -80,11 +79,10 @@ namespace Scriptvana.Editor.Validations.Rules.Settings
                 );
             }
 
-            // Comprobar convención de nombres
-            if (!IsPascalCase(name))
+            if (!MatchesSelectedConvention(name))
             {
                 return ValidationResult.Invalid(
-                    $"El nombre '{name}' no cumple la convención PascalCase (ejemplo: MyAwesomeScript).",
+                    GetConventionMessage(name),
                     ValidationSeverity.Warning,
                     false
                 );
@@ -93,10 +91,28 @@ namespace Scriptvana.Editor.Validations.Rules.Settings
             return ValidationResult.Valid;
         }
 
-        private bool IsPascalCase(string input)
+        private bool MatchesSelectedConvention(string input)
         {
-            // Empieza con mayúscula y no contiene guiones ni underscores
-            return Regex.IsMatch(input, @"^[A-Z][A-Za-z0-9]*$");
+            return _mode switch
+            {
+                NameNormalizationMode.PascalCase => Regex.IsMatch(input, @"^[A-Z][A-Za-z0-9]*$"),
+                NameNormalizationMode.PascalCaseWithUnderscores => Regex.IsMatch(input, @"^[A-Z][A-Za-z0-9_]*$"),
+                NameNormalizationMode.UppercaseFirstLetter => Regex.IsMatch(input, @"^[A-Z].*$"),
+                _ => true
+            };
+        }
+
+        private string GetConventionMessage(string name)
+        {
+            return _mode switch
+            {
+                NameNormalizationMode.PascalCaseWithUnderscores =>
+                    $"El nombre '{name}' no cumple la convencion PascalCase con underscores opcionales.",
+                NameNormalizationMode.UppercaseFirstLetter =>
+                    $"El nombre '{name}' debe empezar con mayuscula.",
+                _ =>
+                    $"El nombre '{name}' no cumple la convencion PascalCase (ejemplo: MyAwesomeScript)."
+            };
         }
     }
 }

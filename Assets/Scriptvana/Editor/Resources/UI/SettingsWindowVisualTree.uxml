@@ -1,30 +1,58 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scriptvana/Editor/Resources/UI/UnityThemes/MainWindowStyle.uss?fileID=7433441132597879392&amp;guid=2b7ad3b9b9ce37242a9ddd80b5f54712&amp;type=3#MainWindowStyle"/>
     <ui:VisualElement name="EditorSection" style="flex-grow: 1; width: 100%; height: 100%; flex-direction: column;">
-        <ui:VisualElement style="flex-grow: 1; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; background-color: rgb(40, 40, 40); flex-direction: row; align-items: center; justify-content: space-between; padding-right: 10px;">
-            <ui:Label text="Settings" name="Title" style="font-size: 24px; -unity-font-style: bold; padding-left: 0; padding-top: 0; padding-bottom: 0; padding-right: 0; color: rgb(251, 126, 32);"/>
-            <ui:Label text="v1.3.0" name="Version" style="font-size: 14px; -unity-font-style: bold; padding-left: 0; padding-top: 0; padding-bottom: 0; padding-right: 0; color: rgb(251, 126, 32);"/>
+        <ui:VisualElement style="padding-left: 10px; padding-top: 10px; padding-bottom: 10px; background-color: rgb(40, 40, 40); flex-direction: row; align-items: center; justify-content: space-between; padding-right: 10px;">
+            <ui:VisualElement>
+                <ui:Label text="Settings" name="Title" style="font-size: 24px; -unity-font-style: bold; color: rgb(251, 126, 32);"/>
+                <ui:Label text="Configure defaults, generation behavior and templates." style="font-size: 11px; color: rgb(190, 190, 190); margin-top: 2px;"/>
+            </ui:VisualElement>
+            <ui:Label text="v1.3.0" name="Version" style="font-size: 14px; -unity-font-style: bold; color: rgb(251, 126, 32);"/>
         </ui:VisualElement>
-        <ui:IMGUIContainer style="flex-direction: column; padding-top: 16px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px;">
-            <ui:IMGUIContainer name="IMGUIContainer" class="container" style="width: 100%; height: 100%; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
-                <ui:Label text="Name normalization" class="titleContainer" style="-unity-text-outline-width: 0; font-size: 16px;"/>
-                <ui:VisualElement name="NameNormalizationSection" style="flex-grow: 1; width: 100%; padding-top: 12px; padding-right: 6px; padding-bottom: 12px; padding-left: 4px; color: rgb(255, 255, 255);">
-                    <ui:IntegerField label="Min characters" value="4" password="false" max-length="3" name="minCharactersField" style="margin-right: 4px; flex-basis: auto;"/>
-                    <ui:Toggle label="Pascal" value="false" name="namingConvertionField"/>
+        <ui:ScrollView style="flex-grow: 1; padding-top: 10px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px;">
+            <ui:VisualElement class="container" style="width: 100%; padding-left: 12px; padding-right: 12px; padding-top: 12px; padding-bottom: 12px;">
+                <ui:Label text="Name normalization" class="titleContainer" style="font-size: 16px;"/>
+                <ui:Label text="Controls how Scriptvana interprets and corrects script names before validation." style="font-size: 11px; color: rgb(170, 170, 170); margin-top: 2px; margin-bottom: 8px;"/>
+                <ui:IntegerField label="Min characters" value="4" password="false" max-length="3" name="minCharactersField"/>
+                <ui:DropdownField label="Normalization mode" name="nameNormalizationModeField" style="margin-top: 8px;"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="container" style="width: 100%; padding-left: 12px; padding-right: 12px; padding-top: 12px; padding-bottom: 12px;">
+                <ui:Label text="Default namespace" class="titleContainer" style="font-size: 16px;"/>
+                <ui:Label text="Defines how the namespace field is prefilled when creating new scripts." style="font-size: 11px; color: rgb(170, 170, 170); margin-top: 2px; margin-bottom: 8px;"/>
+                <ui:DropdownField label="Namespace mode" name="defaultNamespaceModeField"/>
+                <ui:TextField label="Fixed namespace" placeholder-text="Company.Project.Feature" name="fixedNamespaceField" style="margin-top: 8px;"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="container" style="width: 100%; padding-left: 12px; padding-right: 12px; padding-top: 12px; padding-bottom: 12px;">
+                <ui:Label text="Routes and scripting" class="titleContainer" style="font-size: 16px;"/>
+                <ui:Label text="Configures where scripts can be created and how folders are handled." style="font-size: 11px; color: rgb(170, 170, 170); margin-top: 2px; margin-bottom: 8px;"/>
+                <ui:Toggle label="Manual editable path" value="false" name="manuallyEdiablePathField"/>
+                <ui:VisualElement style="flex-direction: row; margin-top: 8px; align-items: flex-end;">
+                    <ui:TextField label="Default path" placeholder-text="Assets/" name="defaultPathField" readonly="true" style="width: 84%;"/>
+                    <ui:Button name="browseButton" style="width: 12%; margin-left: 6px; height: 22px;"/>
                 </ui:VisualElement>
-            </ui:IMGUIContainer>
-            <ui:IMGUIContainer name="IMGUIContainer" class="container" style="width: 100%; height: 100%; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
-                <ui:Label text="Routes and scripting" class="titleContainer" style="-unity-text-outline-width: 0; font-size: 16px;"/>
-                <ui:VisualElement name="PathSection" style="flex-grow: 1; width: 100%; padding-top: 12px; padding-right: 6px; padding-bottom: 12px; padding-left: 4px; color: rgb(255, 255, 255);">
-                    <ui:Toggle label="Manual Ediable Path" value="false" name="manuallyEdiablePathField"/>
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-                        <ui:TextField label="Default Path" placeholder-text="Assets/" name="defaultPathField" readonly="true" style="width: 87%;"/>
-                        <ui:Button name="browseButton"/>
-                    </ui:VisualElement>
+                <ui:Toggle label="Restrict to base path" value="false" name="restrictToBasePathField" style="margin-top: 10px;"/>
+                <ui:VisualElement style="flex-direction: row; margin-top: 8px; align-items: flex-end;">
+                    <ui:TextField label="Base path" placeholder-text="Assets/" name="basePathField" readonly="true" style="width: 84%;"/>
+                    <ui:Button name="basePathBrowseButton" style="width: 12%; margin-left: 6px; height: 22px;"/>
                 </ui:VisualElement>
-            </ui:IMGUIContainer>
-        </ui:IMGUIContainer>
-        <ui:VisualElement style="flex-grow: 1; -unity-text-align: upper-left; align-items: center; width: 100%; height: 10%; margin-top: 0; margin-bottom: 0; justify-content: flex-start; align-content: flex-start; margin-right: 0; margin-left: 0;">
-            <ui:Button text="Save" name="saveSettingsButton" style="margin-top: 0; width: 50%; font-size: 16px; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; -unity-font-style: bold; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; justify-content: flex-start; align-self: auto;"/>
+                <ui:Toggle label="Auto create directories" value="true" name="autoCreateDirectoriesField" style="margin-top: 10px;"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="container" style="width: 100%; padding-left: 12px; padding-right: 12px; padding-top: 12px; padding-bottom: 12px;">
+                <ui:Label text="After generation" class="titleContainer" style="font-size: 16px;"/>
+                <ui:Label text="Controls what happens once Scriptvana finishes generating files." style="font-size: 11px; color: rgb(170, 170, 170); margin-top: 2px; margin-bottom: 8px;"/>
+                <ui:DropdownField label="Open generated asset" name="openGeneratedAssetModeField"/>
+                <ui:DropdownField label="Post generation behavior" name="postGenerationBehaviorField" style="margin-top: 8px;"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="container" style="width: 100%; padding-left: 12px; padding-right: 12px; padding-top: 12px; padding-bottom: 12px;">
+                <ui:Label text="Template defaults" class="titleContainer" style="font-size: 16px;"/>
+                <ui:Label text="Adds common imports and an optional header comment to every generated script." style="font-size: 11px; color: rgb(170, 170, 170); margin-top: 2px; margin-bottom: 8px;"/>
+                <ui:TextField label="Additional imports" name="additionalImportsField" multiline="true" style="height: 76px;"/>
+                <ui:Toggle label="Include header comment" value="false" name="includeHeaderCommentField" style="margin-top: 10px;"/>
+                <ui:TextField label="Header comment" name="headerCommentField" multiline="true" style="height: 76px; margin-top: 8px;"/>
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:VisualElement style="padding-top: 6px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; align-items: center;">
+            <ui:Label text="Review the configuration and press Save to apply it." name="saveStatusLabel" style="font-size: 11px; color: rgb(180, 180, 180); margin-bottom: 6px;"/>
+            <ui:Button text="Save Settings" name="saveSettingsButton" class="button" style="width: 100%; font-size: 15px; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; -unity-font-style: bold;"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
