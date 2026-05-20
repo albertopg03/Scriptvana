@@ -1,197 +1,241 @@
-# 🚀 Scriptvana
+# Scriptvana
 
-**Agile and massive script generation tool for Unity.**
+Unity Editor tool for creating and generating multiple C# scripts from a single workflow.
 
-Scriptvana is a powerful Unity Editor extension that streamlines the script creation workflow. Stop wasting time creating boilerplate code manually—generate multiple scripts at once with customizable templates, smart validations, and an intuitive UI.
-
-[![Unity Version](https://img.shields.io/badge/Unity-2021.3%2B-black.svg)](https://unity.com)
+[![Unity Version](https://img.shields.io/badge/Unity-6000.3-black.svg)](https://unity.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.3.0-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.4.0-green.svg)](CHANGELOG.md)
 
----
+## Overview
 
-## ✨ Features
+Scriptvana is focused on one job: speeding up repetitive script creation inside Unity.
 
-- **Batch Script Creation**: Queue multiple scripts and generate them all at once
-- **Customizable Templates**: Built-in templates for MonoBehaviour, ScriptableObject, Interface, and Empty Class
-- **Smart Validations**: Real-time validation for script names, paths, and naming conventions
-- **Flexible Configuration**: Configure default paths, minimum name length, and naming conventions
-- **User-Friendly UI**: Built with Unity's UI Toolkit for a modern, responsive interface
-- **Path Browser**: Visual folder selection within your Assets directory
-- **Edit Mode**: Modify queued scripts before generation
-- **Persistent Settings**: Your preferences are saved between sessions
+Instead of creating one file at a time, you can queue several scripts, review them before generation, edit queued items, and then generate everything in one batch using built-in templates.
 
----
+The tool currently includes:
 
-## 📦 Installation
+- A main manager window for building and editing a generation queue
+- A settings window for controlling naming rules, default namespaces, route restrictions, template defaults, and post-generation behavior
+- Built-in templates for `MonoBehaviour`, `ScriptableObject`, `Interface`, and `EmptyClass`
+- Persistent configuration through `EditorPrefs`
 
-### Via Git URL (Recommended)
+## Installation
 
-1. Open Unity Package Manager (`Window > Package Manager`)
-2. Click the `+` button in the top-left corner
+### Via Git URL
+
+1. Open `Window > Package Manager`
+2. Click `+`
 3. Select `Add package from git URL...`
-4. Paste the following URL:
-```
-   https://github.com/albertopg03/Scriptvana.git?path=/Assets/Scriptvana
-```
-5. Click `Add`
+4. Paste:
 
-### Manual Installation
+```text
+https://github.com/albertopg03/Scriptvana.git?path=/Assets/Scriptvana
+```
+
+### Manual installation
 
 1. Download or clone this repository
-2. Copy the `Scriptvana` folder into your project's `Assets` directory
-3. Unity will automatically import the package
+2. Copy `Assets/Scriptvana` into your Unity project's `Assets` folder
+3. Let Unity reimport the files
 
----
+## Requirements
 
-## 🎮 Getting Started
+- Unity `6000.3.0f1` or compatible `6000.3`
+- Works as an Editor extension
 
-### Opening Scriptvana
+## Windows
 
-Access the tool via Unity's top menu:
-- **Main Window**: `Tools > Scriptvana > Manager`
-- **Settings Window**: `Tools > Scriptvana > Settings`
+### Manager
 
-### Creating Your First Script
+Open from:
 
-1. Open the **Manager** window
-2. Fill in the script details:
-   - **Script Name**: The name of your class (e.g., `PlayerController`)
-   - **Script Type**: Choose from MonoBehaviour, ScriptableObject, Interface, or Empty Class
-   - **Namespace** (optional): Organize your code with namespaces
-   - **Path**: Target folder within Assets (use the 📁 button to browse)
-3. Click **Add Script** to queue it
-4. Add more scripts if needed
-5. Click **Create Scripts** to generate all queued scripts
+`Tools > Scriptvana > Manager`
 
----
+Main capabilities:
 
-## 🛠️ User Interface Overview
+- Add scripts to a pending generation list
+- Edit queued scripts by selecting them from the list
+- Remove queued scripts before generation
+- Generate all queued scripts in batch
+- Prevent repeated clicks on `Generate` while generation is running
 
-### Main Window
+Form fields:
 
-**Form Section:**
-- **Script Name Field**: Enter the desired class name
-- **Script Type Dropdown**: Select the template type
-- **Namespace Field**: Optional namespace for the script
-- **Path Field**: Target directory (click 📁 to browse)
-- **Add Script Button**: Queue the script for generation
+- `Script Name`
+- `Type`
+- `Name Space`
+- `Script Path`
 
-**Script List:**
-- View all queued scripts before generation
-- Click any script to edit its properties
-- Remove scripts with the ❌ button
+Main behaviors:
 
-**Actions:**
-- **Create Scripts**: Generate all queued scripts
-- **Exit Editor Mode**: Return to add mode after editing
+- `Add Script` adds a new entry to the queue
+- Selecting a queued script switches the form into edit mode
+- `Apply Changes` updates the selected queued item
+- `New Script` exits edit mode and resets the form
 
-### Settings Window
+### Settings
 
-Configure global preferences:
-- **Minimum Characters**: Set minimum script name length (default: 3)
-- **Use Naming Convention**: Enable PascalCase validation
-- **Manually Editable Path**: Allow manual path editing
-- **Default Path**: Set your preferred default directory
+Open from:
 
----
+`Tools > Scriptvana > Settings`
 
-## 📚 Script Templates
+Settings are grouped around the real generation flow, not just visual preferences.
 
-Scriptvana includes four built-in templates:
+## Current features
 
-### 1. MonoBehaviour
-Standard Unity component script with Start() and Update() methods.
+### Batch generation
 
-### 2. ScriptableObject
-Data container script with CreateAssetMenu attribute.
+Queue multiple scripts and generate them together from the manager window.
 
-### 3. Interface
-Interface definition with basic structure.
+### Built-in templates
 
-### 4. Empty Class
-Minimal C# class template.
+Available templates:
 
-> 💡 **Tip**: All templates support optional namespaces and include basic Unity imports.
+- `MonoBehaviour`
+- `ScriptableObject`
+- `Interface`
+- `EmptyClass`
 
----
+All templates support imports and optional namespaces.
 
-## 🔧 Configuration
+### Queue editing
 
-### Global Settings
+Before generating, you can:
 
-Open `Tools > Scriptvana > Settings` to configure:
+- review queued entries
+- modify an item
+- delete an item
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| **Min Characters** | Minimum script name length | `3` |
-| **Naming Convention** | Enforce PascalCase naming | `Enabled` |
-| **Manually Editable Path** | Allow typing paths directly | `Disabled` |
-| **Default Path** | Starting directory for new scripts | `Assets/Scripts` |
+### Naming validation and normalization
 
-Settings are automatically saved using Unity's EditorPrefs.
+Scriptvana validates script names and can also normalize them depending on the selected configuration.
 
----
+Supported normalization modes:
 
-## 🤝 Contributing
+- `Disabled`
+- `PascalCase`
+- `PascalCaseWithUnderscores`
+- `UppercaseFirstLetter`
 
-Contributions are welcome! Please follow these guidelines:
+### Namespace defaults
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+The namespace field can be resolved in three ways:
 
----
+- `Empty`
+- `Fixed`
+- `FromPath`
 
-## 📋 Requirements
+When `FromPath` is enabled, Scriptvana derives the namespace from the target folder path.
 
-- **Unity Version**: 2021.3 LTS or higher
-- **Render Pipelines**: Compatible with Built-in, URP, and HDRP
-- **Platforms**: Windows, macOS, Linux
+### Route and folder rules
 
----
+You can configure:
 
-## 📄 License
+- default script path
+- whether the path is manually editable in the manager
+- base path restriction
+- automatic folder creation
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This is useful when you want all generated scripts to stay inside a controlled folder structure.
 
----
+### Post-generation behavior
 
-## 📝 Changelog
+After generation, Scriptvana can:
 
-| Version | Date | Notes |
-|---------|------|-------|
-| 1.3.0 | 2026-02-27 | Unity 6.3 support + minor fixes |
-| 1.2.1 | 2026-02-25 | Some code refactoring and visual window fixes |
-| 1.2.0 | 2025-10-28 | Git URL import fix + Resource system refactor + Assembly Definition |
-| 1.1.0 | 2025-10-28 | Custom configuration window for tool settings |
-| 1.0.1 | 2025-10-23 | Fixed Unity security issue |
-| 1.0.0 | 2025-05-26 | Initial beta release |
+- do nothing
+- clear only the form
+- clear the queue and the form
 
----
+It can also automatically:
 
-## 🙏 Acknowledgments
+- do nothing
+- select the generated script
+- open the generated script
+- ping the generated folder
 
-- Built with Unity's UI Toolkit
-- Inspired by the need for faster iteration in game development
-- Thanks to the Unity community for feedback and support
+### Template defaults
 
----
+You can define:
 
-## 📬 Contact
+- additional imports appended to generated files
+- an optional header comment included in every generated file
 
-**Alberto Peña**
+## Settings reference
+
+### Name normalization
+
+| Setting | Purpose |
+|---|---|
+| `Min characters` | Minimum valid length for script names |
+| `Normalization mode` | Defines how Scriptvana normalizes names before validation/generation |
+
+### Default namespace
+
+| Setting | Purpose |
+|---|---|
+| `Namespace mode` | Chooses how the namespace field is resolved |
+| `Fixed namespace` | Used when namespace mode is `Fixed` |
+
+### Routes and scripting
+
+| Setting | Purpose |
+|---|---|
+| `Manual editable path` | Allows the path field to be edited directly in the manager |
+| `Default path` | Default target folder used when starting a new script |
+| `Restrict to base path` | Forces generated scripts to stay inside a configured root folder |
+| `Base path` | Root folder used by path restriction |
+| `Auto create directories` | Creates missing folders automatically during generation |
+
+### After generation
+
+| Setting | Purpose |
+|---|---|
+| `Open generated asset` | Controls what Unity focuses after generation |
+| `Post generation behavior` | Controls whether the form or queue is cleared |
+
+### Template defaults
+
+| Setting | Purpose |
+|---|---|
+| `Additional imports` | Extra `using` lines added to generated files |
+| `Include header comment` | Enables a generated comment block at the top of each file |
+| `Header comment` | The text included when header comments are enabled |
+
+## Validation behavior
+
+Scriptvana validates:
+
+- script name format
+- minimum script name length
+- namespace format
+- duplicate entries in the queue
+- route validity according to current settings
+- naming convention warnings according to the selected normalization mode
+
+Validation runs before an item is accepted into the queue or updated.
+
+## Project structure
+
+Important folders:
+
+- `Assets/Scriptvana/Editor/Windows`
+- `Assets/Scriptvana/Editor/Services`
+- `Assets/Scriptvana/Editor/Persistence`
+- `Assets/Scriptvana/Editor/Validations`
+- `Assets/Scriptvana/Editor/Resources/Templates`
+- `Assets/Scriptvana/Editor/Resources/UI`
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
+
+## Author
+
+Alberto Peña
+
 - GitHub: [@albertopg03](https://github.com/albertopg03)
 - Repository: [Scriptvana](https://github.com/albertopg03/Scriptvana)
-
----
-
-<p align="center">
-  Made with ❤️ for the Unity community
-</p>
-
-<p align="center">
-  <i>If you find this tool useful, consider giving it a ⭐ on GitHub!</i>
-</p>

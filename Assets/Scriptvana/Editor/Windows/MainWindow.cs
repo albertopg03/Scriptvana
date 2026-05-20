@@ -182,26 +182,39 @@ namespace Scriptvana.Editor.Windows
         /// </summary>
         private void OnGenerate()
         {
-            ScriptGeneratorService generator = new ScriptGeneratorService();
-            List<string> generatedFiles = generator.CreateFiles(_scriptList);
-            if (generatedFiles.Count == 0)
+            if (!_createButton.enabledSelf)
             {
                 return;
             }
 
-            switch (GenerationPersistence.PostBehavior)
-            {
-                case PostGenerationBehavior.ClearFormOnly:
-                    ExitEditMode();
-                    break;
+            _createButton.SetEnabled(false);
 
-                case PostGenerationBehavior.ClearListAndForm:
-                    _scriptList.Clear();
-                    _scriptListView.itemsSource = _scriptList.Values.ToList();
-                    _scriptListView.Rebuild();
-                    _createButton.SetEnabled(false);
-                    ExitEditMode();
-                    break;
+            try
+            {
+                ScriptGeneratorService generator = new ScriptGeneratorService();
+                List<string> generatedFiles = generator.CreateFiles(_scriptList);
+                if (generatedFiles.Count == 0)
+                {
+                    return;
+                }
+
+                switch (GenerationPersistence.PostBehavior)
+                {
+                    case PostGenerationBehavior.ClearFormOnly:
+                        ExitEditMode();
+                        break;
+
+                    case PostGenerationBehavior.ClearListAndForm:
+                        _scriptList.Clear();
+                        _scriptListView.itemsSource = _scriptList.Values.ToList();
+                        _scriptListView.Rebuild();
+                        ExitEditMode();
+                        break;
+                }
+            }
+            finally
+            {
+                _createButton.SetEnabled(_scriptList.Count > 0);
             }
         }
 
