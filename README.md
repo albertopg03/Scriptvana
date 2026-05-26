@@ -1,4 +1,4 @@
-<p align="left">
+﻿<p align="left">
   <img src="https://raw.githubusercontent.com/albertopg03/Scriptvana/d9310619ceb83b7ec5a9fd40279625b79cf2a4e3/Multimedia/ScriptvanaLogo.png" alt="Scriptvana Logo" width="420">
 </p>
 
@@ -58,6 +58,7 @@ Main capabilities:
 - Add scripts to a pending generation list
 - Edit queued scripts by selecting them from the list
 - Remove queued scripts before generation
+- Preview the relative target path for each queued script
 - Generate all queued scripts in batch
 - Prevent repeated clicks on `Generate` while generation is running
 
@@ -121,13 +122,16 @@ Supported normalization modes:
 
 ### Namespace defaults
 
-The namespace field can be resolved in three ways:
+The namespace field can be resolved in four ways:
 
 - `Empty`
 - `Fixed`
 - `FromPath`
+- `ScriptName`
 
 When `FromPath` is enabled, Scriptvana derives the namespace from the target folder path.
+
+When `ScriptName` is enabled, Scriptvana autofills the namespace from the current script name while you type. If you manually edit the namespace field, Scriptvana stops overwriting it until the form is reset.
 
 ### Route and folder rules
 
@@ -175,6 +179,7 @@ You can define:
 
 | Setting | Purpose |
 |---|---|
+| `Use script name as namespace` | Uses the current script name as the default namespace while creating a new script |
 | `Namespace mode` | Chooses how the namespace field is resolved |
 | `Fixed namespace` | Used when namespace mode is `Fixed` |
 
@@ -241,3 +246,4 @@ Alberto Peña
 
 - GitHub: [@albertopg03](https://github.com/albertopg03)
 - Repository: [Scriptvana](https://github.com/albertopg03/Scriptvana)
+
