@@ -35,6 +35,7 @@ namespace Scriptvana.Editor.Windows
         private Button _saveButton;
         private Button _newScriptButton;
         private Button _createButton;
+        private Button _openRepositoryButton;
 
         // vista del listado de scripts agregados temporalmente, previo a su generacion.
         private ListView _scriptListView;
@@ -68,6 +69,7 @@ namespace Scriptvana.Editor.Windows
             _saveButton = layout.Q<Button>("saveFormButton");
             _newScriptButton = layout.Q<Button>("newScriptButton");
             _createButton = layout.Q<Button>("createScriptButton");
+            _openRepositoryButton = layout.Q<Button>("openRepositoryButton");
 
             _scriptListView = layout.Q<ListView>("ScriptListView");
             InitScriptListView();
@@ -80,6 +82,7 @@ namespace Scriptvana.Editor.Windows
             _saveButton.clicked += OnAdd;
             _newScriptButton.clicked += OnStartNewScript;
             _createButton.clicked += OnGenerate;
+            _openRepositoryButton.clicked += OnOpenRepository;
             _scriptNameField.RegisterValueChangedCallback(OnScriptNameChanged);
             _nameSpaceField.RegisterValueChangedCallback(OnNamespaceChanged);
 
@@ -107,6 +110,11 @@ namespace Scriptvana.Editor.Windows
             {
                 SyncNamespaceWithCurrentPath(previousPath);
             }
+        }
+
+        private void OnOpenRepository()
+        {
+            Application.OpenURL("https://github.com/albertopg03/Scriptvana");
         }
 
         /// <summary>
