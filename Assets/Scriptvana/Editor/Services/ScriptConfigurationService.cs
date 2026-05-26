@@ -58,24 +58,35 @@ namespace Scriptvana.Editor.Services
             return NormalizeFolderPathInternal(RoutePersistence.BasePath);
         }
 
-        public static string ResolveNamespace(string explicitNamespace, string path)
+        public static string ResolveNamespace(string explicitNamespace, string path, string scriptName = "")
         {
             if (!string.IsNullOrWhiteSpace(explicitNamespace))
             {
                 return explicitNamespace.Trim();
             }
 
-            return GetDefaultNamespace(path);
+            return GetDefaultNamespace(path, scriptName);
         }
 
-        public static string GetDefaultNamespace(string path)
+        public static string GetDefaultNamespace(string path, string scriptName = "")
         {
+            if (NamespacePersistence.UseScriptNameAsDefaultNamespace)
+            {
+                return BuildNamespaceFromScriptName(scriptName);
+            }
+
             return NamespacePersistence.DefaultMode switch
             {
                 DefaultNamespaceMode.Fixed => NamespacePersistence.FixedNamespace.Trim(),
                 DefaultNamespaceMode.FromPath => BuildNamespaceFromPath(path),
                 _ => string.Empty
             };
+        }
+
+        public static string BuildNamespaceFromScriptName(string scriptName)
+        {
+            string normalizedScriptName = NormalizeName(scriptName);
+            return SanitizeNamespaceSegment(normalizedScriptName);
         }
 
         public static string BuildNamespaceFromPath(string path)

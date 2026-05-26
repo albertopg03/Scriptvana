@@ -17,6 +17,7 @@
             <ui:VisualElement class="container" style="width: 100%; padding-left: 12px; padding-right: 12px; padding-top: 12px; padding-bottom: 12px;">
                 <ui:Label text="Default namespace" class="titleContainer" style="font-size: 16px;"/>
                 <ui:Label text="Defines how the namespace field is prefilled when creating new scripts." style="font-size: 11px; color: rgb(170, 170, 170); margin-top: 2px; margin-bottom: 8px;"/>
+                <ui:Toggle label="Use script name as namespace" value="false" name="useScriptNameAsNamespaceField"/>
                 <ui:DropdownField label="Namespace mode" name="defaultNamespaceModeField"/>
                 <ui:TextField label="Fixed namespace" placeholder-text="Company.Project.Feature" name="fixedNamespaceField" style="margin-top: 8px;"/>
             </ui:VisualElement>

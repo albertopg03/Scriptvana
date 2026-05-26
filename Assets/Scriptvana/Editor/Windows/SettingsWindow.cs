@@ -20,6 +20,7 @@ namespace Scriptvana.Editor.Windows
 
         private IntegerField _minCharactersField;
         private DropdownField _nameNormalizationModeField;
+        private Toggle _useScriptNameAsNamespaceField;
         private DropdownField _defaultNamespaceModeField;
         private TextField _fixedNamespaceField;
         private Toggle _manuallyEdiablePathField;
@@ -45,6 +46,7 @@ namespace Scriptvana.Editor.Windows
         {
             _minCharactersField = layout.Q<IntegerField>("minCharactersField");
             _nameNormalizationModeField = layout.Q<DropdownField>("nameNormalizationModeField");
+            _useScriptNameAsNamespaceField = layout.Q<Toggle>("useScriptNameAsNamespaceField");
             _defaultNamespaceModeField = layout.Q<DropdownField>("defaultNamespaceModeField");
             _fixedNamespaceField = layout.Q<TextField>("fixedNamespaceField");
             _manuallyEdiablePathField = layout.Q<Toggle>("manuallyEdiablePathField");
@@ -91,6 +93,11 @@ namespace Scriptvana.Editor.Windows
 
             _minCharactersField.RegisterValueChangedCallback(_ => MarkSettingsAsDirty());
             _nameNormalizationModeField.RegisterValueChangedCallback(_ => MarkSettingsAsDirty());
+            _useScriptNameAsNamespaceField.RegisterValueChangedCallback(_ =>
+            {
+                RefreshConditionalFields();
+                MarkSettingsAsDirty();
+            });
             _defaultNamespaceModeField.RegisterValueChangedCallback(_ =>
             {
                 RefreshConditionalFields();
@@ -148,6 +155,7 @@ namespace Scriptvana.Editor.Windows
             NamespacePersistence.DefaultMode =
                 Enum.Parse<DefaultNamespaceMode>(_defaultNamespaceModeField.value);
             NamespacePersistence.FixedNamespace = _fixedNamespaceField.value?.Trim() ?? string.Empty;
+            NamespacePersistence.UseScriptNameAsDefaultNamespace = _useScriptNameAsNamespaceField.value;
 
             RoutePersistence.ManualEditablePath = _manuallyEdiablePathField.value;
             RoutePersistence.DefaultPath = defaultPath;
@@ -177,6 +185,7 @@ namespace Scriptvana.Editor.Windows
             _minCharactersField.value = NormalizeNamePersistence.MinScriptNameLength;
             _nameNormalizationModeField.value = NormalizeNamePersistence.NormalizationMode.ToString();
 
+            _useScriptNameAsNamespaceField.value = NamespacePersistence.UseScriptNameAsDefaultNamespace;
             _defaultNamespaceModeField.value = NamespacePersistence.DefaultMode.ToString();
             _fixedNamespaceField.value = NamespacePersistence.FixedNamespace;
 
@@ -196,7 +205,12 @@ namespace Scriptvana.Editor.Windows
 
         private void RefreshConditionalFields()
         {
-            bool useFixedNamespace = _defaultNamespaceModeField.value == DefaultNamespaceMode.Fixed.ToString();
+            bool useScriptNameAsNamespace = _useScriptNameAsNamespaceField.value;
+            _defaultNamespaceModeField.SetEnabled(!useScriptNameAsNamespace);
+
+            bool useFixedNamespace =
+                !useScriptNameAsNamespace &&
+                _defaultNamespaceModeField.value == DefaultNamespaceMode.Fixed.ToString();
             _fixedNamespaceField.SetEnabled(useFixedNamespace);
 
             bool restrictToBasePath = _restrictToBasePathField.value;

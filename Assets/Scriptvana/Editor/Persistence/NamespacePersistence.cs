@@ -22,5 +22,11 @@ namespace Scriptvana.Editor.Persistence
             get => EditorPrefs.GetString("fixedNamespace", string.Empty);
             set => EditorPrefs.SetString("fixedNamespace", value ?? string.Empty);
         }
+
+        public static bool UseScriptNameAsDefaultNamespace
+        {
+            get => EditorPrefs.GetBool("useScriptNameAsDefaultNamespace", false);
+            set => EditorPrefs.SetBool("useScriptNameAsDefaultNamespace", value);
+        }
     }
 }
