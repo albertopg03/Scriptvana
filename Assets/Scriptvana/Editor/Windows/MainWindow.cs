@@ -43,6 +43,7 @@ namespace Scriptvana.Editor.Windows
         private int _indexScript;
         private ScriptDefinition _selectedScript;
         private string _lastAutoNamespace = string.Empty;
+        private bool _hasUserCustomizedNamespace;
         private Dictionary<int, ScriptDefinition> _scriptList = new();
 
         [MenuItem("Tools/Scriptvana/Manager")]
@@ -80,6 +81,7 @@ namespace Scriptvana.Editor.Windows
             _newScriptButton.clicked += OnStartNewScript;
             _createButton.clicked += OnGenerate;
             _scriptNameField.RegisterValueChangedCallback(OnScriptNameChanged);
+            _nameSpaceField.RegisterValueChangedCallback(OnNamespaceChanged);
 
             _createButton.SetEnabled(false);
             EditorIconHelper.AddCenteredIconToButton(_browseButton, IconData.Instance.iconFolder, new Vector2(20, 20));
@@ -356,7 +358,17 @@ namespace Scriptvana.Editor.Windows
                 return;
             }
 
+            if (_hasUserCustomizedNamespace)
+            {
+                return;
+            }
+
             UpdateNamespaceFromCurrentScriptName();
+        }
+
+        private void OnNamespaceChanged(ChangeEvent<string> _)
+        {
+            _hasUserCustomizedNamespace = true;
         }
 
         /// <summary>
@@ -417,11 +429,11 @@ namespace Scriptvana.Editor.Windows
         /// </summary>
         private void ClearForm()
         {
+            _hasUserCustomizedNamespace = false;
             _scriptNameField.value = "";
             _pathTextField.value = ScriptConfigurationService.GetDefaultScriptPath();
             _scriptTypeField.value = _scriptTypeField.choices.FirstOrDefault();
-            _nameSpaceField.value = ScriptConfigurationService.GetDefaultNamespace(_pathTextField.value, _scriptNameField.value);
-            _lastAutoNamespace = _nameSpaceField.value;
+            SetNamespaceValue(ScriptConfigurationService.GetDefaultNamespace(_pathTextField.value, _scriptNameField.value));
         }
 
         private void ApplyDefaultFormValues()
@@ -447,13 +459,17 @@ namespace Scriptvana.Editor.Windows
                 return;
             }
 
-            _nameSpaceField.value = ScriptConfigurationService.GetDefaultNamespace(_pathTextField.value);
-            _lastAutoNamespace = _nameSpaceField.value;
+            SetNamespaceValue(ScriptConfigurationService.GetDefaultNamespace(_pathTextField.value));
         }
 
         private void UpdateNamespaceFromCurrentScriptName()
         {
-            _nameSpaceField.value = ScriptConfigurationService.BuildNamespaceFromScriptName(_scriptNameField.value);
+            SetNamespaceValue(ScriptConfigurationService.BuildNamespaceFromScriptName(_scriptNameField.value));
+        }
+
+        private void SetNamespaceValue(string value)
+        {
+            _nameSpaceField.SetValueWithoutNotify(value);
             _lastAutoNamespace = _nameSpaceField.value;
         }
     }
