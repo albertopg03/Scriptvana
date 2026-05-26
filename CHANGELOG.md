@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.5.0 - 2026-05-26
+
+- Added a new namespace setting to use the script name as the default namespace
+- Added real-time namespace sync from `Script name` while creating a new script
+- Improved namespace autofill so manual edits stop further automatic overwrites until the form is reset
+- Expanded the pending script preview to show the relative creation path for each queued script
+- Added a direct repository link in `MainWindow`
+- Fixed outdated stylesheet references after moving resources from `Assets` to `Packages`
+- Fixed the invalid `unity-text-align` USS property warning
+
 ## 1.4.0 - 2026-05-20
 
 - Expanded `SettingsWindow` with generation-focused configuration
