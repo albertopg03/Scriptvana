@@ -37,6 +37,15 @@
     flex-grow: 1;
 }
 
+.script-path-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgb(170, 170, 170);
+    font-size: 11px;
+    -unity-text-align: middle-left;
+}
+
 .button {
     padding-top: 4px;
     padding-bottom: 4px;

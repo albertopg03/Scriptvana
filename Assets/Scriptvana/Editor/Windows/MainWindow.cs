@@ -267,14 +267,25 @@ namespace Scriptvana.Editor.Windows
                 VisualElement rowOption = new VisualElement();
                 rowOption.style.flexDirection = FlexDirection.Row;
                 rowOption.style.justifyContent = Justify.SpaceBetween;
-                rowOption.style.alignItems = Align.Center;
+                rowOption.style.alignItems = Align.FlexStart;
                 rowOption.style.paddingLeft = 4;
                 rowOption.style.paddingRight = 4;
+                rowOption.style.paddingTop = 4;
+                rowOption.style.paddingBottom = 4;
+
+                VisualElement textContainer = new VisualElement();
+                textContainer.style.flexGrow = 1;
+                textContainer.style.flexShrink = 1;
+                textContainer.style.marginRight = 6;
 
                 // crea un label (texto) para mostrar el nombre del script
                 Label label = new Label();
                 label.name = "scriptLabel";
                 label.AddToClassList("truncate-label"); // clase personalizada para truncar el texto si es muy largo.
+
+                Label pathLabel = new Label();
+                pathLabel.name = "scriptPathLabel";
+                pathLabel.AddToClassList("script-path-label");
 
                 // crea el boton para eliminar dicho elemento de la lista
                 Button deleteOptionBtn = new Button();
@@ -286,9 +297,12 @@ namespace Scriptvana.Editor.Windows
                 deleteOptionBtn.style.width = 30;
                 deleteOptionBtn.style.height = 20;
                 deleteOptionBtn.style.marginLeft = 4;
+                deleteOptionBtn.style.marginTop = 2;
 
                 // agrega los elementos al contenedor VisualElement
-                rowOption.Add(label);
+                textContainer.Add(label);
+                textContainer.Add(pathLabel);
+                rowOption.Add(textContainer);
                 rowOption.Add(deleteOptionBtn);
 
                 // tras crear el contenedor, lo devuelve para confirmarlo como elemento de la lista
@@ -303,6 +317,8 @@ namespace Scriptvana.Editor.Windows
 
                 Label label = element.Q<Label>("scriptLabel");
                 label.text = string.Concat(dataScript?.Name ?? string.Empty, ".cs");
+                Label pathLabel = element.Q<Label>("scriptPathLabel");
+                pathLabel.text = dataScript?.Path ?? string.Empty;
 
                 Button button = element.Q<Button>("deleteButton");
                 button.clickable.clicked -= null; // limpiar handlers anteriores
@@ -321,7 +337,7 @@ namespace Scriptvana.Editor.Windows
             };
 
             _scriptListView.selectionType = SelectionType.Single;
-            _scriptListView.fixedItemHeight = 24;
+            _scriptListView.fixedItemHeight = 42;
 
             _scriptListView.selectionChanged += selected =>
             {
