@@ -4,7 +4,7 @@ Unity Editor tool for creating and generating multiple C# scripts from a single 
 
 [![Unity Version](https://img.shields.io/badge/Unity-6000.3-black.svg)](https://unity.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.4.0-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.5.0-green.svg)](CHANGELOG.md)
 
 ## Overview
 
