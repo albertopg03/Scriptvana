@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Scriptvana.Editor.Models;
 using Scriptvana.Editor.Persistence;
@@ -16,6 +16,7 @@ namespace Scriptvana.Editor.Windows
         [SerializeField]
         private VisualTreeAsset _visualTree;
         protected override VisualTreeAsset VisualTree => _visualTree;
+        protected override IReadOnlyList<string> StyleSheetResourcePaths => new[] { "UI/UnityThemes/MainWindowStyle" };
 
         private IntegerField _minCharactersField;
         private DropdownField _nameNormalizationModeField;
@@ -217,3 +218,4 @@ namespace Scriptvana.Editor.Windows
         }
     }
 }
+

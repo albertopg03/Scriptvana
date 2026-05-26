@@ -1,4 +1,4 @@
-using Scriptvana.Editor.Models;
+﻿using Scriptvana.Editor.Models;
 using Scriptvana.Editor.Persistence;
 using Scriptvana.Editor.Services;
 using Scriptvana.Editor.Windows.Base;
@@ -13,16 +13,17 @@ using UnityEngine.UIElements;
 namespace Scriptvana.Editor.Windows
 {
     /// <summary>
-    /// Vista de la herramienta que se encarga de mostrar el formulario, la lista de scripts que se van añadiendo,
+    /// Vista de la herramienta que se encarga de mostrar el formulario, la lista de scripts que se van aniadiendo,
     /// el formulario y los botones.
-    /// También recoge los datos del formulario, y llama a los servicios de rutas y validaciones para asegurarse
-    /// y recoger para así mostrar al usuario si hay algún problema en algún momento del flujo de uso de la herramienta.
+    /// Tambien recoge los datos del formulario, y llama a los servicios de rutas y validaciones para asegurarse
+    /// y recoger para asi­ mostrar al usuario si hay algun problema en algun momento del flujo de uso de la herramienta.
     /// </summary>
     public class MainWindow : BaseEditorWindow<MainWindow>
     {
         [SerializeField]
         private VisualTreeAsset _visualTree;
         protected override VisualTreeAsset VisualTree => _visualTree;
+        protected override IReadOnlyList<string> StyleSheetResourcePaths => new[] { "UI/UnityThemes/MainWindowStyle" };
 
         // campos del formulario
         private TextField _scriptNameField;
@@ -35,7 +36,7 @@ namespace Scriptvana.Editor.Windows
         private Button _newScriptButton;
         private Button _createButton;
 
-        // vista del listado de scripts agregados temporalmente, previo a su generación.
+        // vista del listado de scripts agregados temporalmente, previo a su generacion.
         private ListView _scriptListView;
 
         // lista de scripts
@@ -56,7 +57,7 @@ namespace Scriptvana.Editor.Windows
         /// </summary>
         protected override void OnAfterCreateGUI(VisualElement layout)
         {
-            // bindea los campos creados desde el UI Toolkit para poder trabajarlos desde el código
+            // bindea los campos creados desde el UI Toolkit para poder trabajarlos desde el cÃ³digo
             _scriptNameField = layout.Q<TextField>("scriptNameField");
             _scriptTypeField = layout.Q<DropdownField>("typeScriptField");
             _nameSpaceField = layout.Q<TextField>("nameSpaceField");
@@ -90,7 +91,7 @@ namespace Scriptvana.Editor.Windows
         }
 
         /// <summary>
-        /// Evento que ejecuta una lógica tras pulsar el botón para navegar entre rutas.
+        /// Evento que ejecuta una logica tras pulsar el boton para navegar entre rutas.
         /// </summary>
         private void OnBrowse()
         {
@@ -106,7 +107,7 @@ namespace Scriptvana.Editor.Windows
         }
 
         /// <summary>
-        /// Evento para poder añadir un script nuevo a la lista temporal
+        /// Evento para poder aniadir un script nuevo a la lista temporal
         /// </summary>
         private void OnAdd()
         {
@@ -170,15 +171,15 @@ namespace Scriptvana.Editor.Windows
             _scriptListView.itemsSource = _scriptList.Values.ToList();
             _scriptListView.Rebuild();
 
-            // habilitar dinámicamente el botón de crear 
+            // habilitar dinamicamente el botÃ³n de crear 
             _createButton.SetEnabled(_scriptList.Count > 0);
 
-            // Limpiar selección para evitar confusiones
+            // Limpiar seleccion para evitar confusiones
             ExitEditMode();
         }
 
         /// <summary>
-        /// Evento que se ejecuta al pulsar el botón de generar los scripts.
+        /// Evento que se ejecuta al pulsar el botonn de generar los scripts.
         /// </summary>
         private void OnGenerate()
         {
@@ -219,8 +220,8 @@ namespace Scriptvana.Editor.Windows
         }
 
         /// <summary>
-        /// Permite salir del modo edición. Este modo facilita el mantener el mismo flujo de trabajo con el formulario,
-        /// pero que al darle al botón de añadir script, en lugar de agregar un script diferente a la lista, modifica
+        /// Permite salir del modo edicion. Este modo facilita el mantener el mismo flujo de trabajo con el formulario,
+        /// pero que al darle al boton de aÃ±adir script, en lugar de agregar un script diferente a la lista, modifica
         /// el script seleccionado.
         /// Este evento permite salir de ese modo para que el usuario pueda crear sin conflicto alguno un nuevo script.
         /// </summary>
@@ -230,7 +231,7 @@ namespace Scriptvana.Editor.Windows
         }
 
         /// <summary>
-        /// Permite salir del modo ediciÃ³n y volver al flujo de creaciÃ³n de un script nuevo.
+        /// Permite salir del modo edicion y volver al flujo de creacion de un script nuevo.
         /// </summary>
         private void ExitEditMode()
         {
@@ -243,7 +244,7 @@ namespace Scriptvana.Editor.Windows
         // =========== Funcionalidades
 
         /// <summary>
-        /// Inicializa de forma dinámica desde código la lista de scripts, ya que al haber un número dinámico
+        /// Inicializa de forma dinÃ¡mica desde codigo la lista de scripts, ya que al haber un numero dinamico
         /// de posibles scripts en la lista, no se pueden crear directamente desde el UI Toolkit.
         /// </summary>
         private void InitScriptListView()
@@ -252,11 +253,11 @@ namespace Scriptvana.Editor.Windows
             _scriptListView.itemsSource = items;
 
             // crea cada elemento (item) de la lista. 
-            // 1. makeItem crea el elemento, no le asigna lógica
-            // 2. bindItem asigna lógica al elemento tras crearlo
+            // 1. makeItem crea el elemento, no le asigna logica
+            // 2. bindItem asigna logica al elemento tras crearlo
             _scriptListView.makeItem = () =>
             {
-                // primero crea un contenedor donde irá cada información del script añadido y le da un estilo
+                // primero crea un contenedor donde iran cada informacion del script aniadido y le da un estilo
                 VisualElement rowOption = new VisualElement();
                 rowOption.style.flexDirection = FlexDirection.Row;
                 rowOption.style.justifyContent = Justify.SpaceBetween;
@@ -269,12 +270,12 @@ namespace Scriptvana.Editor.Windows
                 label.name = "scriptLabel";
                 label.AddToClassList("truncate-label"); // clase personalizada para truncar el texto si es muy largo.
 
-                // crea el botón para eliminar dicho elemento de la lista
+                // crea el boton para eliminar dicho elemento de la lista
                 Button deleteOptionBtn = new Button();
 
                 EditorIconHelper.AddCenteredIconToButton(deleteOptionBtn, IconData.Instance.iconClose, new Vector2(16, 16));
 
-                // estiliza el  botón de borrado
+                // estiliza el  boton de borrado
                 deleteOptionBtn.name = "deleteButton";
                 deleteOptionBtn.style.width = 30;
                 deleteOptionBtn.style.height = 20;
@@ -288,7 +289,7 @@ namespace Scriptvana.Editor.Windows
                 return rowOption;
             };
 
-            // tras crear el elemento, lo bindea con la lógica de los scripts
+            // tras crear el elemento, lo bindea con la logica de los scripts
             _scriptListView.bindItem = (element, i) =>
             {
                 List<ScriptDefinition> itemsLocal = _scriptList.Values.ToList();
@@ -345,7 +346,7 @@ namespace Scriptvana.Editor.Windows
         }
 
         /// <summary>
-        /// Sincroniza el estado visual del formulario segÃºn si el usuario estÃ¡ creando o editando.
+        /// Sincroniza el estado visual del formulario en funcion de si el usuario esta creando o editando.
         /// </summary>
         private void RefreshEditionUI()
         {
@@ -360,7 +361,7 @@ namespace Scriptvana.Editor.Windows
         }
 
         /// <summary>
-        /// Función que hace de puente con los servicios de validación necesarios para mantener una coherencia
+        /// Funcion que hace de puente con los servicios de validacion necesarios para mantener una coherencia
         /// y evitar posibles errores a la hora de crear los scripts.
         /// </summary>
         /// <param name="script"></param>
@@ -384,9 +385,9 @@ namespace Scriptvana.Editor.Windows
             {
                 string fullErrorMessage = string.Join("\n\n", allErrors);
 
-                // Mostrar diálogo con todos los errores
+                // Mostrar diÃ¡logo con todos los errores
                 EditorUtility.DisplayDialog(
-                    "Error de Validación",
+                    "Error de ValidaciÃ³n",
                     $"Se encontraron los siguientes errores:\n\n{fullErrorMessage}",
                     "OK"
                 );
@@ -432,3 +433,4 @@ namespace Scriptvana.Editor.Windows
         }
     }
 }
+

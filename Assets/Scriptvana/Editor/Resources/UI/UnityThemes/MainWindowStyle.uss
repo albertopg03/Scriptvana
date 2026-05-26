@@ -33,7 +33,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    unity-text-align: middle-left;
+    -unity-text-align: middle-left;
     flex-grow: 1;
 }
 
