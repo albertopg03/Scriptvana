@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.0 - 2026-05-26
+## 1.5.1 - 2026-05-26
 
 - Added a new namespace setting to use the script name as the default namespace
 - Added real-time namespace sync from `Script name` while creating a new script
