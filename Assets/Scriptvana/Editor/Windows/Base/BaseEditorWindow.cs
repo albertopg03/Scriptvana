@@ -9,9 +9,9 @@ namespace Scriptvana.Editor.Windows.Base
     public abstract class BaseEditorWindow<T> : EditorWindow where T : EditorWindow
     {
         /// <summary>
-        /// Visual Tree que se cargara para la ventana
+        /// Ruta relativa a Resources del Visual Tree que se cargara para la ventana.
         /// </summary>
-        protected abstract VisualTreeAsset VisualTree { get; }
+        protected abstract string VisualTreeResourcePath { get; }
         protected virtual IReadOnlyList<string> StyleSheetResourcePaths => Array.Empty<string>();
 
         /// <summary>
@@ -31,8 +31,18 @@ namespace Scriptvana.Editor.Windows.Base
         protected virtual void CreateGUI()
         {
             var root = rootVisualElement;
+            root.Clear();
 
-            var layout = VisualTree.Instantiate();
+            VisualTreeAsset visualTree = Resources.Load<VisualTreeAsset>(VisualTreeResourcePath);
+            if (visualTree == null)
+            {
+                string message = $"[SCRIPTVANA]: Visual tree not found at Resources path '{VisualTreeResourcePath}' for {GetType().Name}.";
+                Debug.LogError(message);
+                root.Add(new HelpBox(message, HelpBoxMessageType.Error));
+                return;
+            }
+
+            var layout = visualTree.Instantiate();
             AttachStyleSheets(layout);
             root.Add(layout);
             OnAfterCreateGUI(layout);

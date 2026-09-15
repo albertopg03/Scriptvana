@@ -1,4 +1,4 @@
-﻿<p align="left">
+<p align="left">
   <img src="https://raw.githubusercontent.com/albertopg03/Scriptvana/d9310619ceb83b7ec5a9fd40279625b79cf2a4e3/Multimedia/ScriptvanaLogo.png" alt="Scriptvana Logo" width="420">
 </p>
 
@@ -6,7 +6,7 @@ Unity Editor tool for creating and generating multiple C# scripts from a single 
 
 [![Unity Version](https://img.shields.io/badge/Unity-6000.3-black.svg)](https://unity.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.5.1-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.5.2-green.svg)](CHANGELOG.md)
 
 ## Overview
 

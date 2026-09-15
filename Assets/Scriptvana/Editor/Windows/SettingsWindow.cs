@@ -13,9 +13,7 @@ namespace Scriptvana.Editor.Windows
 {
     public class SettingsWindow : BaseEditorWindow<SettingsWindow>
     {
-        [SerializeField]
-        private VisualTreeAsset _visualTree;
-        protected override VisualTreeAsset VisualTree => _visualTree;
+        protected override string VisualTreeResourcePath => "UI/SettingsWindowVisualTree";
         protected override IReadOnlyList<string> StyleSheetResourcePaths => new[] { "UI/UnityThemes/MainWindowStyle" };
 
         private IntegerField _minCharactersField;

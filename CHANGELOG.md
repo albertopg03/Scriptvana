@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.2 - 2026-09-15
+
+- Fixed manager and settings windows requiring manual UXML references by loading their visual trees automatically from Resources
+- Added a clear error in the window and console when a required visual tree is missing
+
 ## 1.5.1 - 2026-05-26
 
 - Added a new namespace setting to use the script name as the default namespace

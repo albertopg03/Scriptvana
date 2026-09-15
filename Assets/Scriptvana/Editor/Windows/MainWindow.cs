@@ -20,9 +20,7 @@ namespace Scriptvana.Editor.Windows
     /// </summary>
     public class MainWindow : BaseEditorWindow<MainWindow>
     {
-        [SerializeField]
-        private VisualTreeAsset _visualTree;
-        protected override VisualTreeAsset VisualTree => _visualTree;
+        protected override string VisualTreeResourcePath => "UI/MainWindowVisualTreen";
         protected override IReadOnlyList<string> StyleSheetResourcePaths => new[] { "UI/UnityThemes/MainWindowStyle" };
 
         // campos del formulario
