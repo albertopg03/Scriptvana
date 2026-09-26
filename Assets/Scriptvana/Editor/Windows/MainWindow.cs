@@ -85,7 +85,8 @@ namespace Scriptvana.Editor.Windows
             _nameSpaceField.RegisterValueChangedCallback(OnNamespaceChanged);
 
             _createButton.SetEnabled(false);
-            EditorIconHelper.AddCenteredIconToButton(_browseButton, IconData.Instance.iconFolder, new Vector2(20, 20));
+            IconData icons = IconData.Instance;
+            EditorIconHelper.AddCenteredIconToButton(_browseButton, icons != null ? icons.iconFolder : null, new Vector2(20, 20));
 
             // valores del dropdown
             _scriptTypeField.choices = new List<string>(Enum.GetNames(typeof(ScriptType)));
@@ -296,7 +297,8 @@ namespace Scriptvana.Editor.Windows
                 // crea el boton para eliminar dicho elemento de la lista
                 Button deleteOptionBtn = new Button();
 
-                EditorIconHelper.AddCenteredIconToButton(deleteOptionBtn, IconData.Instance.iconClose, new Vector2(16, 16));
+                IconData icons = IconData.Instance;
+                EditorIconHelper.AddCenteredIconToButton(deleteOptionBtn, icons != null ? icons.iconClose : null, new Vector2(16, 16), "X");
 
                 // estiliza el  boton de borrado
                 deleteOptionBtn.name = "deleteButton";

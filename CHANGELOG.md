@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.3 - 2026-09-26
+
+- Fixed broken script and texture GUID references in IconData that prevented windows from opening in fresh package installations
+- Load editor PNG icons through AssetDatabase relative to the installed script location, without depending on serialized GUIDs or the IconData container
+- Kept manager and settings buttons usable with text when icon resources are missing
+
 ## 1.5.2 - 2026-09-15
 
 - Fixed manager and settings windows requiring manual UXML references by loading their visual trees automatically from Resources

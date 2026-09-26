@@ -68,8 +68,10 @@ namespace Scriptvana.Editor.Windows
             RefreshConditionalFields();
             SetSaveStatus("Review the configuration and press Save to apply it.");
 
-            EditorIconHelper.AddCenteredIconToButton(_browseButton, IconData.Instance.iconFolder, new Vector2(20, 20));
-            EditorIconHelper.AddCenteredIconToButton(_basePathBrowseButton, IconData.Instance.iconFolder, new Vector2(20, 20));
+            IconData icons = IconData.Instance;
+            Texture2D folderIcon = icons != null ? icons.iconFolder : null;
+            EditorIconHelper.AddCenteredIconToButton(_browseButton, folderIcon, new Vector2(20, 20));
+            EditorIconHelper.AddCenteredIconToButton(_basePathBrowseButton, folderIcon, new Vector2(20, 20));
         }
 
         private void ConfigureFields()

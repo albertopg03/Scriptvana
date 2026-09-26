@@ -13,8 +13,14 @@ namespace Scriptvana.Editor.Windows.Helpers
         /// <param name="button"></param>
         /// <param name="texture"></param>
         /// <param name="size"></param>
-        public static void AddCenteredIconToButton(Button button, Texture2D texture, Vector2 size)
+        public static void AddCenteredIconToButton(Button button, Texture2D texture, Vector2 size, string fallbackText = "...")
         {
+            if (texture == null)
+            {
+                button.text = fallbackText;
+                return;
+            }
+
             button.style.flexDirection = FlexDirection.Row;
             button.style.justifyContent = Justify.Center;
             button.style.alignItems = Align.Center;
